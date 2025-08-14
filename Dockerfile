@@ -67,7 +67,7 @@ USER app
 
 # Set environment variables
 ENV FLASK_ENV=production
-ENV FLASK_APP=backend.app_v2:app
+ENV FLASK_APP=backend.app_v2_production:app
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
@@ -90,4 +90,4 @@ CMD ["python", "-m", "gunicorn", \
      "--access-logfile", "-", \
      "--error-logfile", "-", \
      "--log-level", "info", \
-     "backend.app_v2:app"]
+     "backend.app_v2_production:app"]
