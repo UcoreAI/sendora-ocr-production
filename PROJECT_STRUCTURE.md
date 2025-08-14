@@ -94,9 +94,9 @@ start.bat
 
 #### `.env` - Environment Variables
 ```env
-# Azure Form Recognizer (Primary OCR)
-AZURE_FORM_RECOGNIZER_ENDPOINT=https://sendoraformparser.cognitiveservices.azure.com/
-AZURE_FORM_RECOGNIZER_KEY=6LVEZiaOrkHK60L5Rqn1trreA0wiSQSizvI1QQjpfp6FV8G7VqcYJQQJ99BHACqBBLyXJ3w3AAALACOGwtQN
+# Azure Form Recognizer (Primary OCR) - DEPRECATED (Now using Google Document AI)
+AZURE_FORM_RECOGNIZER_ENDPOINT=YOUR_AZURE_ENDPOINT_HERE
+AZURE_FORM_RECOGNIZER_KEY=YOUR_AZURE_KEY_HERE
 
 # File handling
 MAX_FILE_SIZE=16777216
