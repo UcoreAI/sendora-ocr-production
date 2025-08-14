@@ -16,8 +16,8 @@ import logging
 from functools import wraps
 
 # Import our core modules
-from google_document_ai import GoogleDocumentProcessor
-from simple_working_template import SimpleWorkingTemplate
+from backend.google_document_ai import GoogleDocumentProcessor
+from backend.simple_working_template import SimpleWorkingTemplate
 
 # Production configuration
 class ProductionConfig:
