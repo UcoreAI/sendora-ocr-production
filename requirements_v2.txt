@@ -6,6 +6,10 @@ Flask>=2.3.0
 werkzeug>=2.3.0
 jinja2>=3.1.0
 
+# Production server
+gunicorn>=21.0.0
+Flask-Limiter>=3.5.0
+
 # Google Cloud Document AI (NEW - Primary OCR)
 google-cloud-documentai>=2.20.0
 google-cloud-storage>=2.10.0
