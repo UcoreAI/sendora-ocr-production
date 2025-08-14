@@ -6,9 +6,10 @@ FROM python:3.11-slim as base
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    # PDF generation
-    wkhtmltopdf \
-    xvfb \
+    # Build tools
+    build-essential \
+    curl \
+    wget \
     # Fonts for better PDF rendering
     fonts-liberation \
     fonts-dejavu-core \
@@ -16,12 +17,17 @@ RUN apt-get update && apt-get install -y \
     # Image processing
     libjpeg-dev \
     libpng-dev \
-    # Build tools
-    build-essential \
-    curl \
+    # X11 for wkhtmltopdf
+    xvfb \
     # Cleanup
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
+
+# Install wkhtmltopdf manually from official repository
+RUN wget -q https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb \
+    && dpkg -i wkhtmltox_0.12.6.1-3.jammy_amd64.deb || true \
+    && apt-get update && apt-get install -f -y \
+    && rm wkhtmltox_0.12.6.1-3.jammy_amd64.deb
 
 # Create non-root user for security
 RUN useradd --create-home --shell /bin/bash --uid 1000 app
