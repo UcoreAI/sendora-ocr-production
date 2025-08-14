@@ -56,7 +56,7 @@ services:
     labels:
       # Traefik configuration for Elestio
       - "traefik.enable=true"
-      - "traefik.http.routers.sendora-ocr.rule=Host(\`sendora-ocr.elestio.app\`)"
+      - "traefik.http.routers.sendora-ocr.rule=Host(`sendora-ocr.elestio.app`)"
       - "traefik.http.routers.sendora-ocr.tls=true"
       - "traefik.http.routers.sendora-ocr.tls.certresolver=letsencrypt"
       - "traefik.http.services.sendora-ocr.loadbalancer.server.port=5000"
