@@ -49,12 +49,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Rate limiter setup
-limiter = Limiter(
-    key_func=get_remote_address,
-    default_limits=["100 per hour"] if app.config['RATE_LIMIT_ENABLED'] else []
-)
-limiter.init_app(app)
+# Rate limiter setup (disabled for debugging)
+# limiter = Limiter(
+#     key_func=get_remote_address,
+#     default_limits=["100 per hour"] if app.config['RATE_LIMIT_ENABLED'] else []
+# )
+# limiter.init_app(app)
 
 # Global session storage (in production, use Redis)
 validation_sessions = {}
@@ -183,7 +183,6 @@ def demo_info():
     })
 
 @app.route('/upload', methods=['POST'])
-@limiter.limit(f"{ProductionConfig.MAX_REQUESTS_PER_MINUTE} per minute")
 @demo_mode_required
 def upload_file():
     """Enhanced file upload with demo restrictions"""
