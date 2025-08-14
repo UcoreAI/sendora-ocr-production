@@ -48,8 +48,7 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
 # Stage 3: Application assembly
 FROM dependencies as application
 
-# Switch to app user
-USER app
+# Set working directory first
 WORKDIR /app
 
 # Copy application code with proper ownership
@@ -59,8 +58,12 @@ COPY --chown=app:app config/ config/
 COPY --chown=app:app debug_extraction.py .
 COPY --chown=app:app test_size_extraction.py .
 
-# Create required directories
-RUN mkdir -p uploads job_orders job_orders/pdf temp logs
+# Create required directories as root, then change ownership
+RUN mkdir -p uploads job_orders job_orders/pdf temp logs && \
+    chown -R app:app uploads job_orders temp logs
+
+# Switch to app user
+USER app
 
 # Set environment variables
 ENV FLASK_ENV=production
