@@ -1,0 +1,50 @@
+# Sendora OCR V2.0 Requirements
+# Enhanced system with Google Document AI and HITL validation
+
+# Core Flask framework
+Flask>=2.3.0
+werkzeug>=2.3.0
+jinja2>=3.1.0
+
+# Google Cloud Document AI (NEW - Primary OCR)
+google-cloud-documentai>=2.20.0
+google-cloud-storage>=2.10.0
+google-auth>=2.23.0
+google-api-core>=2.12.0
+
+# Azure Form Recognizer (Legacy - kept for compatibility)
+azure-cognitiveservices-vision-computervision>=0.9.0
+azure-identity>=1.12.0
+msrest>=0.7.1
+
+# PDF Processing
+PyPDF2>=3.0.0
+reportlab>=4.0.0
+pdfrw>=0.4  # For form field manipulation
+
+# Image Processing
+Pillow>=10.0.0
+opencv-python>=4.8.0
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Utilities
+python-dotenv>=1.0.0
+requests>=2.31.0
+
+# Session Management (NEW)
+Flask-Session>=0.5.0
+redis>=4.5.0  # For session storage
+
+# Form Validation (NEW)
+Flask-WTF>=1.1.1
+WTForms>=3.0.1
+
+# JSON Processing
+jsonschema>=4.17.0
+
+# Development/Testing
+pytest>=7.3.0
+pytest-flask>=1.2.0

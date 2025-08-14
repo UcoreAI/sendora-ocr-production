@@ -1,0 +1,170 @@
+#!/usr/bin/env python3
+"""
+Test script for Template Overlay System
+Tests overlaying parsed data on actual Sendora JO templates
+"""
+
+import os
+import sys
+sys.path.append('backend')
+
+from template_overlay_generator import SendoraTemplateOverlay
+
+def create_test_data():
+    """Create test data for template overlay"""
+    
+    # Frame template test data
+    frame_data = {
+        'structured_data': {
+            'document_info': {
+                'po_number': 'PO-2025-FRAME-001',
+                'date': '15/01/2025'
+            },
+            'company_info': {
+                'company_name': 'PREMIUM DOORS SDN BHD'
+            },
+            'product_specs': [
+                {
+                    'width': 850,
+                    'height': 2100,
+                    'thickness': 40,
+                    'type': 'frame'
+                },
+                {
+                    'width': 900,
+                    'height': 2200,
+                    'thickness': 45,
+                    'type': 'frame'
+                }
+            ],
+            'frame_specs': {
+                'frame_options': ['inner'],
+                'has_profile': True
+            }
+        },
+        'full_text': 'frame specifications inner profile width height'
+    }
+    
+    # Door template test data
+    door_data = {
+        'structured_data': {
+            'document_info': {
+                'po_number': 'PO-2025-DOOR-002',
+                'date': '16/01/2025'
+            },
+            'company_info': {
+                'company_name': 'LUXURY HOMES SDN BHD'
+            },
+            'product_specs': [
+                {
+                    'width': 850,
+                    'height': 2021,
+                    'thickness': 43,
+                    'type': 'door'
+                },
+                {
+                    'width': 760,
+                    'height': 2021,
+                    'thickness': 37,
+                    'type': 'door'
+                }
+            ],
+            'door_specs': {
+                'door_type': 'S/L',
+                'core_type': 'honeycomb',
+                'edging': 'na lipping'
+            }
+        },
+        'full_text': 'door thickness 43mm door type S/L honeycomb core na lipping'
+    }
+    
+    return frame_data, door_data
+
+def test_template_overlay():
+    """Test the template overlay system"""
+    
+    print("Testing Sendora Template Overlay System...")
+    print("=" * 50)
+    
+    # Initialize overlay generator
+    generator = SendoraTemplateOverlay()
+    
+    # Check if original templates exist
+    print("Checking original template files:")
+    for template_type, path in generator.templates.items():
+        if os.path.exists(path):
+            print(f"  [OK] {template_type.upper()} template found: {os.path.basename(path)}")
+        else:
+            print(f"  [MISSING] {template_type.upper()} template missing: {path}")
+    
+    print()
+    
+    # Get test data
+    frame_data, door_data = create_test_data()
+    
+    # Test frame template overlay
+    print("1. Testing FRAME template overlay...")
+    template_type = generator.determine_template_type(frame_data)
+    print(f"   Detected template: {template_type}")
+    
+    frame_output = 'overlay_frame_jo.pdf'
+    try:
+        generator.generate_job_order(frame_data, 'frame', frame_output)
+        if os.path.exists(frame_output):
+            size = os.path.getsize(frame_output)
+            print(f"   [SUCCESS] Generated: {frame_output} ({size:,} bytes)")
+        else:
+            print(f"   [FAIL] Failed to generate: {frame_output}")
+    except Exception as e:
+        print(f"   [ERROR] Error: {e}")
+    
+    # Test door template overlay
+    print("2. Testing DOOR template overlay...")
+    template_type = generator.determine_template_type(door_data)
+    print(f"   Detected template: {template_type}")
+    
+    door_output = 'overlay_door_jo.pdf'
+    try:
+        generator.generate_job_order(door_data, 'door', door_output)
+        if os.path.exists(door_output):
+            size = os.path.getsize(door_output)
+            print(f"   [SUCCESS] Generated: {door_output} ({size:,} bytes)")
+        else:
+            print(f"   [FAIL] Failed to generate: {door_output}")
+    except Exception as e:
+        print(f"   [ERROR] Error: {e}")
+    
+    print()
+    print("Template Overlay Test Results:")
+    print("=" * 50)
+    
+    # Check generated files
+    generated_files = []
+    for filename in [frame_output, door_output]:
+        if os.path.exists(filename):
+            size = os.path.getsize(filename)
+            generated_files.append(f"  {filename} - {size:,} bytes")
+    
+    if generated_files:
+        print("Generated overlaid templates:")
+        for file_info in generated_files:
+            print(file_info)
+        print()
+        print("These PDFs should contain:")
+        print("- Your original Sendora JO template layout")
+        print("- Overlaid data in the correct field positions")
+        print("- Properly marked checkboxes based on extracted data")
+        print("- Auto-generated job order numbers and dates")
+    else:
+        print("No files generated successfully.")
+        print("Check that your original template files are accessible.")
+    
+    print()
+    print("Next steps:")
+    print("1. Open the generated PDFs")
+    print("2. Compare with your original templates")
+    print("3. Verify data is placed in correct positions")
+    print("4. Check that checkboxes are marked properly")
+
+if __name__ == '__main__':
+    test_template_overlay()

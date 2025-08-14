@@ -1,0 +1,48 @@
+{
+  "page_size": [
+    594.2999877929688,
+    840.510009765625
+  ],
+  "fields": {
+    "job_order_no": {
+      "x": 140,
+      "y": 100,
+      "font": "Helvetica",
+      "size": 10
+    },
+    "job_order_date": {
+      "x": 400,
+      "y": 100,
+      "font": "Helvetica",
+      "size": 10
+    },
+    "customer_name": {
+      "x": 160,
+      "y": 130,
+      "font": "Helvetica",
+      "size": 10
+    },
+    "po_no": {
+      "x": 120,
+      "y": 160,
+      "font": "Helvetica",
+      "size": 10
+    },
+    "delivery_date": {
+      "x": 400,
+      "y": 160,
+      "font": "Helvetica",
+      "size": 10
+    },
+    "measure_by": {
+      "x": 140,
+      "y": 190,
+      "font": "Helvetica",
+      "size": 10
+    }
+  },
+  "checkboxes": {
+    "frame_type": []
+  },
+  "table_rows": []
+}

@@ -1,0 +1,94 @@
+#!/usr/bin/env python3
+"""
+Test script to simulate document upload and processing
+"""
+
+import os
+import requests
+import time
+from pathlib import Path
+
+def test_upload_and_download():
+    """Test the upload and download process"""
+    
+    # Create a simple test image file
+    from PIL import Image, ImageDraw, ImageFont
+    
+    # Create a simple invoice-like image
+    img = Image.new('RGB', (800, 600), color='white')
+    draw = ImageDraw.Draw(img)
+    
+    # Add some text that looks like an invoice
+    text_lines = [
+        "INVOICE",
+        "Invoice No: INV-2025-001",
+        "Date: 2025-01-15",
+        "Company: Test Door Manufacturing",
+        "Door Specifications:",
+        "- Width: 800mm",
+        "- Height: 2100mm", 
+        "- Material: Solid Wood",
+        "Total: RM 2,500.00"
+    ]
+    
+    y_position = 50
+    for line in text_lines:
+        draw.text((50, y_position), line, fill='black')
+        y_position += 40
+    
+    # Save test image
+    test_image_path = 'test_invoice.jpg'
+    img.save(test_image_path)
+    print(f"Created test image: {test_image_path}")
+    
+    # Test the upload
+    url = 'http://localhost:5000/upload'
+    
+    try:
+        with open(test_image_path, 'rb') as f:
+            files = {'file': ('test_invoice.jpg', f, 'image/jpeg')}
+            response = requests.post(url, files=files)
+            
+        print(f"Upload response status: {response.status_code}")
+        print(f"Response URL: {response.url}")
+        
+        if response.status_code == 200:
+            print("Upload successful!")
+            # The response should redirect to the processing page
+            # We can check if there are any job order files created
+            jo_folder = Path('job_orders')
+            if jo_folder.exists():
+                jo_files = list(jo_folder.glob('*.pdf'))
+                print(f"Job Order files found: {jo_files}")
+                
+                if jo_files:
+                    # Try to download the first JO file
+                    jo_filename = jo_files[0].name
+                    download_url = f'http://localhost:5000/download_jo/{jo_filename}'
+                    download_response = requests.get(download_url)
+                    
+                    print(f"Download response status: {download_response.status_code}")
+                    if download_response.status_code == 200:
+                        print("Download successful!")
+                        with open(f'downloaded_{jo_filename}', 'wb') as f:
+                            f.write(download_response.content)
+                        print(f"Saved downloaded file as: downloaded_{jo_filename}")
+                    else:
+                        print(f"Download failed: {download_response.text}")
+            else:
+                print("Job orders folder not found")
+        else:
+            print(f"Upload failed: {response.text}")
+            
+    except requests.ConnectionError:
+        print("Could not connect to localhost:5000. Make sure the server is running.")
+    except Exception as e:
+        print(f"Error during test: {e}")
+    
+    # Clean up
+    if os.path.exists(test_image_path):
+        os.remove(test_image_path)
+
+if __name__ == '__main__':
+    print("Testing Sendora OCR upload and download...")
+    test_upload_and_download()

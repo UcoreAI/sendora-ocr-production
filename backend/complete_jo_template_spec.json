@@ -1,0 +1,573 @@
+{
+  "page_info": {
+    "width": 841.6799926757812,
+    "height": 595.2000122070312,
+    "format": "A4 Landscape",
+    "orientation": "landscape",
+    "margins": {
+      "top": 20,
+      "right": 20,
+      "bottom": 20,
+      "left": 20
+    }
+  },
+  "header_section": {
+    "fields": {
+      "job_order_date": {
+        "label": "Job Order Date:",
+        "label_position": {
+          "x": 29.06399917602539,
+          "y": 53.75425338745117,
+          "width": 69.00227737426758,
+          "height": 12.789356231689453
+        },
+        "data_field": {
+          "x": 103.06627655029297,
+          "y": 53.75425338745117,
+          "width": 150,
+          "height": 12.789356231689453
+        },
+        "font_size": 11.15999984741211,
+        "font_family": "ArialNarrow-Bold"
+      },
+      "job_order_no": {
+        "label": "Job Order No:",
+        "label_position": {
+          "x": 33.98400115966797,
+          "y": 39.11423873901367,
+          "width": 64.08071899414062,
+          "height": 12.789360046386719
+        },
+        "data_field": {
+          "x": 103.0647201538086,
+          "y": 39.11423873901367,
+          "width": 150,
+          "height": 12.789360046386719
+        },
+        "font_size": 11.15999984741211,
+        "font_family": "ArialNarrow-Bold"
+      },
+      "delivery_date": {
+        "label": "Delivery Date:",
+        "label_position": {
+          "x": 608.260009765625,
+          "y": 39.11423873901367,
+          "width": 60.6661376953125,
+          "height": 12.789360046386719
+        },
+        "data_field": {
+          "x": 673.9261474609375,
+          "y": 39.11423873901367,
+          "width": 150,
+          "height": 12.789360046386719
+        },
+        "font_size": 11.15999984741211,
+        "font_family": "ArialNarrow-Bold"
+      },
+      "customer_name": {
+        "label": "Customer Name:",
+        "label_position": {
+          "x": 595.780029296875,
+          "y": 53.75425338745117,
+          "width": 73.1317138671875,
+          "height": 12.789356231689453
+        },
+        "data_field": {
+          "x": 673.9117431640625,
+          "y": 53.75425338745117,
+          "width": 150,
+          "height": 12.789356231689453
+        },
+        "font_size": 11.15999984741211,
+        "font_family": "ArialNarrow-Bold"
+      },
+      "measure_by_": {
+        "label": "Measure By :",
+        "label_position": {
+          "x": 612.0999755859375,
+          "y": 67.91422271728516,
+          "width": 56.81591796875,
+          "height": 12.789360046386719
+        },
+        "data_field": {
+          "x": 673.9158935546875,
+          "y": 67.91422271728516,
+          "width": 150,
+          "height": 12.789360046386719
+        },
+        "font_size": 11.15999984741211,
+        "font_family": "ArialNarrow-Bold"
+      },
+      "po_no": {
+        "label": "PO NO:",
+        "label_position": {
+          "x": 65.66400146484375,
+          "y": 67.91422271728516,
+          "width": 32.453277587890625,
+          "height": 12.789360046386719
+        },
+        "data_field": {
+          "x": 103.11727905273438,
+          "y": 67.91422271728516,
+          "width": 150,
+          "height": 12.789360046386719
+        },
+        "font_size": 11.15999984741211,
+        "font_family": "ArialNarrow-Bold"
+      }
+    },
+    "layout": "two_column",
+    "left_column": [
+      "job_order_no",
+      "job_order_date",
+      "po_no"
+    ],
+    "right_column": [
+      "delivery_date",
+      "customer_name",
+      "measure_by"
+    ]
+  },
+  "company_branding": {
+    "form_type": {
+      "text": "JOB ORDER",
+      "position": {
+        "x": 715.9199829101562,
+        "y": 16.73856544494629
+      },
+      "font_size": 14.039999961853027,
+      "font_weight": "bold",
+      "border": true
+    },
+    "company_name": {
+      "text": "SENDORA GROUP SDN BHD (HQ)",
+      "position": {
+        "x": 249.1699981689453,
+        "y": 16.73856544494629
+      },
+      "font_size": 14.039999961853027,
+      "font_weight": "bold"
+    }
+  },
+  "form_title": {
+    "text": "DOOR",
+    "position": {
+      "x": 361.0299987792969,
+      "y": 33.750728607177734
+    },
+    "font_size": 45.47999954223633,
+    "font_weight": "bold",
+    "center_aligned": true,
+    "border": true,
+    "background": "white"
+  },
+  "table_structure": {
+    "columns": {
+      "item": {
+        "header": "ITEM",
+        "position": {
+          "x": 16.583999633789062,
+          "y": 104.1636962890625
+        },
+        "width": 17.86608123779297,
+        "font_size": 9.119999885559082
+      },
+      "edging": {
+        "header": "EDGING",
+        "position": {
+          "x": 436.2699890136719,
+          "y": 174.00369262695312
+        },
+        "width": 35.09375,
+        "font_size": 9.119999885559082
+      },
+      "design_name": {
+        "header": "DESIGN NAME",
+        "position": {
+          "x": 555.219970703125,
+          "y": 103.8037109375
+        },
+        "width": 52.84124755859375,
+        "font_size": 9.119999885559082
+      },
+      "drawing___remark": {
+        "header": "DRAWING / REMARK",
+        "position": {
+          "x": 712.3200073242188,
+          "y": 103.68368530273438
+        },
+        "width": 75.577392578125,
+        "font_size": 9.119999885559082
+      },
+      "door_type": {
+        "header": "DOOR TYPE",
+        "position": {
+          "x": 290.2099914550781,
+          "y": 103.8037109375
+        },
+        "width": 44.204681396484375,
+        "font_size": 9.119999885559082
+      },
+      "door_core": {
+        "header": "DOOR CORE",
+        "position": {
+          "x": 356.95001220703125,
+          "y": 103.8037109375
+        },
+        "width": 46.247589111328125,
+        "font_size": 9.119999885559082
+      },
+      "door_size": {
+        "header": "DOOR SIZE",
+        "position": {
+          "x": 188.3300018310547,
+          "y": 103.68368530273438
+        },
+        "width": 41.22239685058594,
+        "font_size": 9.119999885559082
+      }
+    },
+    "rows": 4,
+    "row_height": 90,
+    "header_row": true,
+    "borders": true,
+    "alternating_rows": false
+  },
+  "checkbox_groups": {
+    "door_thickness": {
+      "options": [
+        "37mm",
+        "43mm",
+        "48mm",
+        "Others:"
+      ],
+      "layout": "vertical",
+      "found_positions": {
+        "37mm": {
+          "text_position": {
+            "x": 107.30000305175781,
+            "y": 402.53369140625
+          },
+          "checkbox_position": {
+            "x": 92.30000305175781,
+            "y": 402.53369140625
+          },
+          "font_size": 9.119999885559082
+        },
+        "43mm": {
+          "text_position": {
+            "x": 107.30000305175781,
+            "y": 425.36370849609375
+          },
+          "checkbox_position": {
+            "x": 92.30000305175781,
+            "y": 425.36370849609375
+          },
+          "font_size": 9.119999885559082
+        },
+        "48mm": {
+          "text_position": {
+            "x": 107.30000305175781,
+            "y": 448.1636962890625
+          },
+          "checkbox_position": {
+            "x": 92.30000305175781,
+            "y": 448.1636962890625
+          },
+          "font_size": 9.119999885559082
+        },
+        "Others:": {
+          "text_position": {
+            "x": 309.04998779296875,
+            "y": 465.3236999511719
+          },
+          "checkbox_position": {
+            "x": 294.04998779296875,
+            "y": 465.3236999511719
+          },
+          "font_size": 9.119999885559082
+        }
+      }
+    },
+    "door_type": {
+      "options": [
+        "S/L",
+        "D/L",
+        "Unequal D/L",
+        "Others:"
+      ],
+      "layout": "vertical",
+      "found_positions": {
+        "S/L": {
+          "text_position": {
+            "x": 315.7699890136719,
+            "y": 402.6536865234375
+          },
+          "checkbox_position": {
+            "x": 300.7699890136719,
+            "y": 402.6536865234375
+          },
+          "font_size": 9.119999885559082
+        },
+        "D/L": {
+          "text_position": {
+            "x": 315.6499938964844,
+            "y": 454.043701171875
+          },
+          "checkbox_position": {
+            "x": 300.6499938964844,
+            "y": 454.043701171875
+          },
+          "font_size": 9.119999885559082
+        },
+        "Others:": {
+          "text_position": {
+            "x": 309.04998779296875,
+            "y": 465.3236999511719
+          },
+          "checkbox_position": {
+            "x": 294.04998779296875,
+            "y": 465.3236999511719
+          },
+          "font_size": 9.119999885559082
+        }
+      }
+    },
+    "door_core": {
+      "options": [
+        "Honeycomb",
+        "Solid Tubular Core",
+        "Solid Timber",
+        "Metal Skeleton"
+      ],
+      "layout": "vertical",
+      "found_positions": {
+        "Honeycomb": {
+          "text_position": {
+            "x": 368.8299865722656,
+            "y": 310.85369873046875
+          },
+          "checkbox_position": {
+            "x": 353.8299865722656,
+            "y": 310.85369873046875
+          },
+          "font_size": 9.119999885559082
+        },
+        "Solid Timber": {
+          "text_position": {
+            "x": 367.75,
+            "y": 174.00369262695312
+          },
+          "checkbox_position": {
+            "x": 352.75,
+            "y": 174.00369262695312
+          },
+          "font_size": 9.119999885559082
+        },
+        "Metal Skeleton": {
+          "text_position": {
+            "x": 363.6700134277344,
+            "y": 196.95370483398438
+          },
+          "checkbox_position": {
+            "x": 348.6700134277344,
+            "y": 196.95370483398438
+          },
+          "font_size": 9.119999885559082
+        }
+      }
+    },
+    "edging": {
+      "options": [
+        "NA Lipping",
+        "ABS Edging",
+        "No Edging"
+      ],
+      "layout": "vertical",
+      "found_positions": {
+        "NA Lipping": {
+          "text_position": {
+            "x": 436.2699890136719,
+            "y": 402.53369140625
+          },
+          "checkbox_position": {
+            "x": 421.2699890136719,
+            "y": 402.53369140625
+          },
+          "font_size": 9.119999885559082
+        },
+        "ABS Edging": {
+          "text_position": {
+            "x": 436.2699890136719,
+            "y": 425.36370849609375
+          },
+          "checkbox_position": {
+            "x": 421.2699890136719,
+            "y": 425.36370849609375
+          },
+          "font_size": 9.119999885559082
+        },
+        "No Edging": {
+          "text_position": {
+            "x": 436.2699890136719,
+            "y": 174.00369262695312
+          },
+          "checkbox_position": {
+            "x": 421.2699890136719,
+            "y": 174.00369262695312
+          },
+          "font_size": 9.119999885559082
+        }
+      }
+    },
+    "decorative_line": {
+      "options": [
+        "T-bar",
+        "Groove Line"
+      ],
+      "layout": "vertical",
+      "found_positions": {
+        "Groove Line": {
+          "text_position": {
+            "x": 505.6600036621094,
+            "y": 174.00369262695312
+          },
+          "checkbox_position": {
+            "x": 490.6600036621094,
+            "y": 174.00369262695312
+          },
+          "font_size": 9.119999885559082
+        },
+        "T-bar": {
+          "text_position": {
+            "x": 517.1799926757812,
+            "y": 128.4036865234375
+          },
+          "checkbox_position": {
+            "x": 502.17999267578125,
+            "y": 128.4036865234375
+          },
+          "font_size": 9.119999885559082
+        }
+      }
+    }
+  },
+  "footer_section": {
+    "elements": {
+      "prepare_by": {
+        "label": "Prepare by,",
+        "position": {
+          "x": 15.02400016784668,
+          "y": 488.2884216308594
+        },
+        "font_size": 8.399999618530273
+      },
+      "production_supervisor_": {
+        "label": "Production Supervisor :",
+        "position": {
+          "x": 636.0999755859375,
+          "y": 531.2724609375
+        },
+        "font_size": 8.399999618530273
+      },
+      "sales_admin": {
+        "label": "Sales Admin",
+        "position": {
+          "x": 257.80999755859375,
+          "y": 531.512451171875
+        },
+        "font_size": 8.399999618530273
+      },
+      "date_": {
+        "label": "Date :",
+        "position": {
+          "x": 694.2000122070312,
+          "y": 541.9524536132812
+        },
+        "font_size": 8.399999618530273
+      },
+      "sales_executive_": {
+        "label": "Sales Executive :",
+        "position": {
+          "x": 25.70400047302246,
+          "y": 531.2724609375
+        },
+        "font_size": 8.399999618530273
+      },
+      "verify_by": {
+        "label": "Verify by,",
+        "position": {
+          "x": 614.1400146484375,
+          "y": 487.80841064453125
+        },
+        "font_size": 8.399999618530273
+      },
+      "checked_by": {
+        "label": "Checked by,",
+        "position": {
+          "x": 254.4499969482422,
+          "y": 487.80841064453125
+        },
+        "font_size": 8.399999618530273
+      }
+    },
+    "layout": "three_column",
+    "sections": [
+      "prepare_section",
+      "admin_section",
+      "supervisor_section"
+    ]
+  },
+  "styling": {
+    "fonts": {
+      "primary": "Arial, sans-serif",
+      "headers": "Arial, sans-serif",
+      "size_small": "8px",
+      "size_normal": "10px",
+      "size_large": "12px",
+      "size_title": "16px"
+    },
+    "colors": {
+      "text": "#000000",
+      "borders": "#000000",
+      "background": "#ffffff"
+    },
+    "borders": {
+      "width": "1px",
+      "style": "solid",
+      "color": "#000000"
+    },
+    "spacing": {
+      "row_padding": "5px",
+      "cell_padding": "3px",
+      "section_margin": "10px"
+    }
+  },
+  "layout_structure": {
+    "sections": [
+      {
+        "name": "header_branding",
+        "height": "60px",
+        "layout": "flex_row"
+      },
+      {
+        "name": "form_fields",
+        "height": "80px",
+        "layout": "two_column"
+      },
+      {
+        "name": "table_section",
+        "height": "400px",
+        "layout": "table"
+      },
+      {
+        "name": "footer_signatures",
+        "height": "100px",
+        "layout": "three_column"
+      }
+    ],
+    "total_height": "640px",
+    "responsive": false,
+    "fixed_layout": true
+  }
+}

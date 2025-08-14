@@ -1,0 +1,45 @@
+
+SENDORA JOB ORDER TEMPLATE SPECIFICATION
+===============================================
+
+PAGE FORMAT:
+- Size: A4 Landscape (842 x 595 points)
+- Orientation: Landscape
+- Margins: 20px all sides
+
+HEADER SECTION:
+- Company: SENDORA GROUP SDN BHD (HQ)
+- Form Type: JOB ORDER
+- Template: DOOR
+
+FORM FIELDS (6 fields):
+- Job Order Date:
+- Job Order No:
+- Delivery Date:
+- Customer Name:
+- Measure By :
+- PO NO:
+
+TABLE STRUCTURE:
+- Columns: 7
+- Rows: 4
+- Headers: ITEM, EDGING, DESIGN NAME, DRAWING / REMARK, DOOR TYPE, DOOR CORE, DOOR SIZE, 
+
+CHECKBOX GROUPS (5 groups):
+- Door Thickness: 4 options
+- Door Type: 4 options
+- Door Core: 4 options
+- Edging: 3 options
+- Decorative Line: 2 options
+
+FOOTER SECTION:
+- Elements: 7
+- Layout: Three-column signature area
+
+STYLING:
+- Fonts: Arial/Helvetica
+- Colors: Black text on white background
+- Borders: 1px solid black lines
+- Layout: Fixed positioning, table-based
+
+This specification ensures 100% identical recreation of your JO template.

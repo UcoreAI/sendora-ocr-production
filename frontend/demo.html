@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendora OCR Demo - 95% Accuracy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .accuracy-badge {
+            background: #28a745;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .demo-limits {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-limits h3 {
+            color: #856404;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .demo-limits ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .demo-limits li {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .upload-section {
+            background: white;
+            border-radius: 12px;
+            padding: 3rem;
+            margin: 3rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-section h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .upload-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .file-upload input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-upload label {
+            display: block;
+            width: 100%;
+            padding: 2rem;
+            background: #f8f9fa;
+            border: 3px dashed #667eea;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            color: #667eea;
+        }
+
+        .file-upload label:hover {
+            background: #e9ecef;
+            border-color: #5a6fd8;
+        }
+
+        .file-upload.has-file label {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .upload-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .upload-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .stats-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            background: rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .upload-section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 Sendora OCR Demo</h1>
+        <div class="accuracy-badge">95% OCR Accuracy</div>
+        <p class="subtitle">Automated Job Order Generation from Invoice PDFs</p>
+        <p class="subtitle">Powered by Google Document AI</p>
+    </div>
+
+    <div class="container">
+        <div class="demo-limits">
+            <h3>🎯 Demo Limits & Features</h3>
+            <ul>
+                <li><strong>Maximum file size:</strong> 16MB</li>
+                <li><strong>Supported formats:</strong> PDF, JPG, PNG</li>
+                <li><strong>Rate limit:</strong> 10 files per hour per IP</li>
+                <li><strong>Auto-cleanup:</strong> Files deleted after 2 hours</li>
+                <li><strong>Processing time:</strong> 5-8 seconds average</li>
+                <li><strong>Accuracy:</strong> 95% with Google Document AI vs 70% legacy</li>
+            </ul>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🤖 Google Document AI</h3>
+                <p>95% accuracy OCR processing with intelligent pattern recognition for Malaysian business documents and door specifications.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>📐 Smart Conversion</h3>
+                <p>Automatic feet-to-millimeter conversion (3FT × 8FT → 915MM × 2440MM) with precise mathematical calculations.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>✅ Intelligent Checkboxes</h3>
+                <p>Automatic checkbox selection based on extracted specifications (43mm thickness → ✅ 43mm selected).</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>📋 Professional Templates</h3>
+                <p>Two-page Job Order generation (Door + Frame) with Sendora company branding and print-ready formatting.</p>
+            </div>
+        </div>
+
+        <div class="upload-section">
+            <h2>📤 Upload Invoice for Processing</h2>
+            
+            <form id="uploadForm" class="upload-form">
+                <div class="file-upload" id="fileUpload">
+                    <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" required>
+                    <label for="fileInput">
+                        <div>📁 Choose Invoice File</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8;">
+                            Drop files here or click to browse
+                        </div>
+                    </label>
+                </div>
+                
+                <div class="progress-bar" id="progressBar" style="display: none;">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                
+                <div id="statusMessage"></div>
+                
+                <button type="submit" class="upload-btn" id="uploadBtn">
+                    🚀 Process Invoice with 95% OCR
+                </button>
+            </form>
+        </div>
+
+        <div class="stats-section" id="statsSection">
+            <h3>📊 Demo Statistics</h3>
+            <div class="stats-grid" id="statsGrid">
+                <!-- Stats will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Sendora OCR Demo - Showcasing 95% accuracy OCR technology</p>
+        <p>Upgrade from 70% (Azure) to 95% (Google Document AI) • Processing time: 5-8 seconds</p>
+    </div>
+
+    <script>
+        // File upload handling
+        const fileInput = document.getElementById('fileInput');
+        const fileUpload = document.getElementById('fileUpload');
+        const uploadForm = document.getElementById('uploadForm');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const statusMessage = document.getElementById('statusMessage');
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                fileUpload.classList.add('has-file');
+                const label = fileUpload.querySelector('label');
+                label.innerHTML = `
+                    <div>✅ ${file.name}</div>
+                    <div style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8;">
+                        Size: ${(file.size / 1024 / 1024).toFixed(2)} MB
+                    </div>
+                `;
+            }
+        });
+
+        uploadForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const file = fileInput.files[0];
+            if (!file) {
+                showStatus('Please select a file first.', 'error');
+                return;
+            }
+
+            // Show progress
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Processing...';
+            progressBar.style.display = 'block';
+            
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                // Simulate progress
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 20;
+                    if (progress > 90) progress = 90;
+                    progressFill.style.width = progress + '%';
+                }, 500);
+
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                clearInterval(progressInterval);
+                progressFill.style.width = '100%';
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    showStatus(`
+                        ✅ Processing successful! Time: ${result.processing_time}<br>
+                        📋 Invoice: ${result.extracted_preview.invoice_number}<br>
+                        🏢 Customer: ${result.extracted_preview.customer_name}<br>
+                        📐 Door Size: ${result.extracted_preview.door_size}<br>
+                        📏 Thickness: ${result.extracted_preview.door_thickness}
+                    `, 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = result.validation_url;
+                    }, 3000);
+                } else {
+                    throw new Error(result.error || 'Upload failed');
+                }
+
+            } catch (error) {
+                showStatus(`❌ Error: ${error.message}`, 'error');
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = '🚀 Process Invoice with 95% OCR';
+                setTimeout(() => {
+                    progressBar.style.display = 'none';
+                    progressFill.style.width = '0%';
+                }, 2000);
+            }
+        });
+
+        function showStatus(message, type) {
+            statusMessage.innerHTML = `<div class="status-message ${type}">${message}</div>`;
+        }
+
+        // Load demo statistics
+        async function loadStats() {
+            try {
+                const response = await fetch('/stats');
+                const stats = await response.json();
+                
+                const statsGrid = document.getElementById('statsGrid');
+                statsGrid.innerHTML = `
+                    <div class="stat-item">
+                        <div class="stat-value">${stats.total_uploads}</div>
+                        <div class="stat-label">Total Uploads</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${stats.success_rate}</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${stats.average_processing_time}</div>
+                        <div class="stat-label">Avg Processing</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">95%</div>
+                        <div class="stat-label">OCR Accuracy</div>
+                    </div>
+                `;
+            } catch (error) {
+                console.log('Stats not available');
+            }
+        }
+
+        // Load stats on page load
+        loadStats();
+        
+        // Refresh stats every 30 seconds
+        setInterval(loadStats, 30000);
+    </script>
+</body>
+</html>

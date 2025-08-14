@@ -1,0 +1,530 @@
+{
+  "template_path": "C:\\Users\\USER\\Desktop\\Project management\\Sendora\\Material\\JOB ORDER FORM -DOOR.pdf",
+  "page_size": [
+    841.6799926757812,
+    595.2000122070312
+  ],
+  "header_fields": {
+    "abs_edging": {
+      "text": "ABS Edging",
+      "x": 436.2699890136719,
+      "y": 425.36370849609375,
+      "width": 40.60223388671875,
+      "height": 10.451507568359375,
+      "font": "ArialNarrow",
+      "size": 9.119999885559082,
+      "flags": 0
+    },
+    "no_edging": {
+      "text": "No Edging",
+      "x": 436.2699890136719,
+      "y": 174.00369262695312,
+      "width": 35.09375,
+      "height": 10.451522827148438,
+      "font": "ArialNarrow",
+      "size": 9.119999885559082,
+      "flags": 0
+    },
+    "job_order_date": {
+      "text": "Job Order Date:",
+      "x": 29.06399917602539,
+      "y": 53.75425338745117,
+      "width": 69.00227737426758,
+      "height": 12.789356231689453,
+      "font": "ArialNarrow-Bold",
+      "size": 11.15999984741211,
+      "flags": 16
+    },
+    "job_order_no": {
+      "text": "Job Order No:",
+      "x": 33.98400115966797,
+      "y": 39.11423873901367,
+      "width": 64.08071899414062,
+      "height": 12.789360046386719,
+      "font": "ArialNarrow-Bold",
+      "size": 11.15999984741211,
+      "flags": 16
+    },
+    "delivery_date": {
+      "text": "Delivery Date:",
+      "x": 608.260009765625,
+      "y": 39.11423873901367,
+      "width": 60.6661376953125,
+      "height": 12.789360046386719,
+      "font": "ArialNarrow-Bold",
+      "size": 11.15999984741211,
+      "flags": 16
+    },
+    "customer_name": {
+      "text": "Customer Name:",
+      "x": 595.780029296875,
+      "y": 53.75425338745117,
+      "width": 73.1317138671875,
+      "height": 12.789356231689453,
+      "font": "ArialNarrow-Bold",
+      "size": 11.15999984741211,
+      "flags": 16
+    },
+    "measure_by": {
+      "text": "Measure By :",
+      "x": 612.0999755859375,
+      "y": 67.91422271728516,
+      "width": 56.81591796875,
+      "height": 12.789360046386719,
+      "font": "ArialNarrow-Bold",
+      "size": 11.15999984741211,
+      "flags": 16
+    },
+    "edging": {
+      "text": "EDGING",
+      "x": 436.510009765625,
+      "y": 103.68368530273438,
+      "width": 29.56707763671875,
+      "height": 10.451515197753906,
+      "font": "ArialNarrow-Bold",
+      "size": 9.119999885559082,
+      "flags": 16
+    },
+    "po_no": {
+      "text": "PO NO:",
+      "x": 65.66400146484375,
+      "y": 67.91422271728516,
+      "width": 32.453277587890625,
+      "height": 12.789360046386719,
+      "font": "ArialNarrow-Bold",
+      "size": 11.15999984741211,
+      "flags": 16
+    },
+    "design_name": {
+      "text": "DESIGN NAME",
+      "x": 555.219970703125,
+      "y": 103.8037109375,
+      "width": 52.84124755859375,
+      "height": 10.451515197753906,
+      "font": "ArialNarrow-Bold",
+      "size": 9.119999885559082,
+      "flags": 16
+    },
+    "drawing_/_remark": {
+      "text": "DRAWING / REMARK",
+      "x": 712.3200073242188,
+      "y": 103.68368530273438,
+      "width": 75.577392578125,
+      "height": 10.451515197753906,
+      "font": "ArialNarrow-Bold",
+      "size": 9.119999885559082,
+      "flags": 16
+    },
+    "door_type": {
+      "text": "DOOR TYPE",
+      "x": 290.2099914550781,
+      "y": 103.8037109375,
+      "width": 44.204681396484375,
+      "height": 10.451515197753906,
+      "font": "ArialNarrow-Bold",
+      "size": 9.119999885559082,
+      "flags": 16
+    },
+    "door_core": {
+      "text": "DOOR CORE",
+      "x": 356.95001220703125,
+      "y": 103.8037109375,
+      "width": 46.247589111328125,
+      "height": 10.451515197753906,
+      "font": "ArialNarrow-Bold",
+      "size": 9.119999885559082,
+      "flags": 16
+    },
+    "door_size": {
+      "text": "DOOR SIZE",
+      "x": 188.3300018310547,
+      "y": 103.68368530273438,
+      "width": 41.22239685058594,
+      "height": 10.451515197753906,
+      "font": "ArialNarrow-Bold",
+      "size": 9.119999885559082,
+      "flags": 16
+    }
+  },
+  "text_elements": {
+    "page_0": {
+      "ITEM": {
+        "text": "ITEM",
+        "x": 16.583999633789062,
+        "y": 104.1636962890625,
+        "width": 17.86608123779297,
+        "height": 10.451515197753906,
+        "font": "ArialNarrow-Bold",
+        "size": 9.119999885559082,
+        "flags": 16
+      },
+      "": {
+        "text": "",
+        "x": 488.7099914550781,
+        "y": 459.45184326171875,
+        "width": 8.12591552734375,
+        "height": 9.557769775390625,
+        "font": "Wingdings2",
+        "size": 9.119999885559082,
+        "flags": 0
+      },
+      "Unequal": {
+        "text": "Unequal",
+        "x": 307.3699951171875,
+        "y": 442.523681640625,
+        "width": 28.03485107421875,
+        "height": 10.451507568359375,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      },
+      "Others:": {
+        "text": "Others:",
+        "x": 309.04998779296875,
+        "y": 465.3236999511719,
+        "width": 24.633087158203125,
+        "height": 10.451507568359375,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      },
+      "Prepare by,": {
+        "text": "Prepare by,",
+        "x": 15.02400016784668,
+        "y": 488.2884216308594,
+        "width": 37.80840492248535,
+        "height": 10.25640869140625,
+        "font": "Aptos Narrow",
+        "size": 8.399999618530273,
+        "flags": 4
+      },
+      "Production Supervisor :": {
+        "text": "Production Supervisor :",
+        "x": 636.0999755859375,
+        "y": 531.2724609375,
+        "width": 77.725341796875,
+        "height": 10.25634765625,
+        "font": "Aptos Narrow",
+        "size": 8.399999618530273,
+        "flags": 4
+      },
+      "Sales Admin": {
+        "text": "Sales Admin",
+        "x": 257.80999755859375,
+        "y": 531.512451171875,
+        "width": 42.8399658203125,
+        "height": 10.25634765625,
+        "font": "Aptos Narrow",
+        "size": 8.399999618530273,
+        "flags": 4
+      },
+      "Date :": {
+        "text": "Date :",
+        "x": 694.2000122070312,
+        "y": 541.9524536132812,
+        "width": 19.697998046875,
+        "height": 10.25634765625,
+        "font": "Aptos Narrow",
+        "size": 8.399999618530273,
+        "flags": 4
+      },
+      "Location :": {
+        "text": "Location :",
+        "x": 181.00999450683594,
+        "y": 194.02857971191406,
+        "width": 55.06488037109375,
+        "height": 16.089828491210938,
+        "font": "ArialNarrow-Bold",
+        "size": 14.039999961853027,
+        "flags": 16
+      },
+      "Solid Tubular": {
+        "text": "Solid Tubular",
+        "x": 366.30999755859375,
+        "y": 145.56369018554688,
+        "width": 46.420806884765625,
+        "height": 10.451522827148438,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      },
+      "Core": {
+        "text": "Core",
+        "x": 380.3500061035156,
+        "y": 157.08370971679688,
+        "width": 16.260955810546875,
+        "height": 10.451522827148438,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      },
+      "DOOR": {
+        "text": "DOOR",
+        "x": 97.7040023803711,
+        "y": 98.1636962890625,
+        "width": 24.623992919921875,
+        "height": 10.451515197753906,
+        "font": "ArialNarrow-Bold",
+        "size": 9.119999885559082,
+        "flags": 16
+      },
+      "JOB ORDER": {
+        "text": "JOB ORDER",
+        "x": 715.9199829101562,
+        "y": 16.73856544494629,
+        "width": 68.4029541015625,
+        "height": 16.0898380279541,
+        "font": "ArialNarrow-Bold",
+        "size": 14.039999961853027,
+        "flags": 16
+      },
+      "SENDORA GROUP SDN BHD (HQ)": {
+        "text": "SENDORA GROUP SDN BHD (HQ)",
+        "x": 249.1699981689453,
+        "y": 16.73856544494629,
+        "width": 186.6616973876953,
+        "height": 16.0898380279541,
+        "font": "ArialNarrow-Bold",
+        "size": 14.039999961853027,
+        "flags": 16
+      },
+      "LAMINATE": {
+        "text": "LAMINATE",
+        "x": 40.58399963378906,
+        "y": 98.1636962890625,
+        "width": 40.71168518066406,
+        "height": 10.451515197753906,
+        "font": "ArialNarrow-Bold",
+        "size": 9.119999885559082,
+        "flags": 16
+      },
+      "CODE": {
+        "text": "CODE",
+        "x": 49.104000091552734,
+        "y": 109.56369018554688,
+        "width": 21.65999984741211,
+        "height": 10.451515197753906,
+        "font": "ArialNarrow-Bold",
+        "size": 9.119999885559082,
+        "flags": 16
+      },
+      "Sales Executive :": {
+        "text": "Sales Executive :",
+        "x": 25.70400047302246,
+        "y": 531.2724609375,
+        "width": 55.658395767211914,
+        "height": 10.25634765625,
+        "font": "Aptos Narrow",
+        "size": 8.399999618530273,
+        "flags": 4
+      },
+      "Verify by,": {
+        "text": "Verify by,",
+        "x": 614.1400146484375,
+        "y": 487.80841064453125,
+        "width": 30.37445068359375,
+        "height": 10.25640869140625,
+        "font": "Aptos Narrow",
+        "size": 8.399999618530273,
+        "flags": 4
+      },
+      "Checked by,": {
+        "text": "Checked by,",
+        "x": 254.4499969482422,
+        "y": 487.80841064453125,
+        "width": 41.29441833496094,
+        "height": 10.25640869140625,
+        "font": "Aptos Narrow",
+        "size": 8.399999618530273,
+        "flags": 4
+      },
+      "DECORATIVE": {
+        "text": "DECORATIVE",
+        "x": 492.7900085449219,
+        "y": 98.1636962890625,
+        "width": 51.254425048828125,
+        "height": 10.451515197753906,
+        "font": "ArialNarrow-Bold",
+        "size": 9.119999885559082,
+        "flags": 16
+      },
+      "LINE": {
+        "text": "LINE",
+        "x": 508.8999938964844,
+        "y": 109.56369018554688,
+        "width": 16.990570068359375,
+        "height": 10.451515197753906,
+        "font": "ArialNarrow-Bold",
+        "size": 9.119999885559082,
+        "flags": 16
+      },
+      "OPEN HOLE": {
+        "text": "OPEN HOLE",
+        "x": 619.5399780273438,
+        "y": 98.1636962890625,
+        "width": 46.32958984375,
+        "height": 10.451515197753906,
+        "font": "ArialNarrow-Bold",
+        "size": 9.119999885559082,
+        "flags": 16
+      },
+      "TYPE": {
+        "text": "TYPE",
+        "x": 631.9000244140625,
+        "y": 109.56369018554688,
+        "width": 19.61712646484375,
+        "height": 10.451515197753906,
+        "font": "ArialNarrow-Bold",
+        "size": 9.119999885559082,
+        "flags": 16
+      },
+      "THICKNESS": {
+        "text": "THICKNESS",
+        "x": 87.26399993896484,
+        "y": 109.56369018554688,
+        "width": 43.25617218017578,
+        "height": 10.451515197753906,
+        "font": "ArialNarrow-Bold",
+        "size": 9.119999885559082,
+        "flags": 16
+      },
+      "SGSB (v050625)": {
+        "text": "SGSB (v050625)",
+        "x": 712.6799926757812,
+        "y": 570.1199951171875,
+        "width": 72.0029296875,
+        "height": 11.0400390625,
+        "font": "Calibri-BoldItalic",
+        "size": 11.039999961853027,
+        "flags": 18
+      }
+    }
+  },
+  "form_fields": {},
+  "table_structure": {
+    "page_0": []
+  },
+  "checkbox_groups": {
+    "door_thickness": {
+      "37mm": {
+        "text": "37mm",
+        "x": 107.30000305175781,
+        "y": 402.53369140625,
+        "width": 20.84832763671875,
+        "height": 10.451507568359375,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      },
+      "43mm": {
+        "text": "43mm",
+        "x": 107.30000305175781,
+        "y": 425.36370849609375,
+        "width": 20.84832763671875,
+        "height": 10.451507568359375,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      },
+      "48mm": {
+        "text": "48mm",
+        "x": 107.30000305175781,
+        "y": 448.1636962890625,
+        "width": 20.84832763671875,
+        "height": 10.451507568359375,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      }
+    },
+    "door_type": {
+      "S/L": {
+        "text": "S/L",
+        "x": 315.7699890136719,
+        "y": 402.6536865234375,
+        "width": 11.23583984375,
+        "height": 10.451507568359375,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      },
+      "D/L": {
+        "text": "D/L",
+        "x": 315.6499938964844,
+        "y": 454.043701171875,
+        "width": 11.60064697265625,
+        "height": 10.451507568359375,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      }
+    },
+    "edging": {
+      "NA Lipping": {
+        "text": "NA Lipping",
+        "x": 436.2699890136719,
+        "y": 402.53369140625,
+        "width": 36.7718505859375,
+        "height": 10.451507568359375,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      }
+    },
+    "door_core": {
+      "Honeycomb": {
+        "text": "Honeycomb",
+        "x": 368.8299865722656,
+        "y": 310.85369873046875,
+        "width": 40.009429931640625,
+        "height": 10.451507568359375,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      },
+      "Solid Timber": {
+        "text": "Solid Timber",
+        "x": 367.75,
+        "y": 174.00369262695312,
+        "width": 42.1708984375,
+        "height": 10.451522827148438,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      },
+      "Metal Skeleton": {
+        "text": "Metal Skeleton",
+        "x": 363.6700134277344,
+        "y": 196.95370483398438,
+        "width": 49.61279296875,
+        "height": 10.451522827148438,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      }
+    },
+    "decorative_line": {
+      "Groove Line": {
+        "text": "Groove Line",
+        "x": 505.6600036621094,
+        "y": 174.00369262695312,
+        "width": 40.957855224609375,
+        "height": 10.451522827148438,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      },
+      "T-bar": {
+        "text": "T-bar",
+        "x": 517.1799926757812,
+        "y": 128.4036865234375,
+        "width": 17.95721435546875,
+        "height": 10.451522827148438,
+        "font": "ArialNarrow",
+        "size": 9.119999885559082,
+        "flags": 0
+      }
+    }
+  },
+  "signature_areas": {}
+}

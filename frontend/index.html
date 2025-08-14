@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendora OCR - Localhost Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0;
+        }
+        .upload-area {
+            border: 3px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #e9ecef;
+        }
+        .upload-area.dragover {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        .file-info {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-scan mr-2"></i>
+                Sendora OCR
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="status-badge">
+                    <i class="fas fa-circle text-success"></i> Localhost Active
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 mb-4">
+                <i class="fas fa-robot mr-3"></i>
+                AI-Powered OCR for Door Manufacturing
+            </h1>
+            <p class="lead mb-4">Upload Purchase Orders or Sales Invoices to automatically generate Job Orders</p>
+            <div class="row mt-5">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <i class="fas fa-upload fa-3x mb-3"></i>
+                        <h5>Upload Document</h5>
+                        <p>PDF, JPG, PNG, TIFF supported</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <i class="fas fa-eye fa-3x mb-3"></i>
+                        <h5>OCR Processing</h5>
+                        <p>High-accuracy text extraction</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <i class="fas fa-file-pdf fa-3x mb-3"></i>
+                        <h5>Generate Job Order</h5>
+                        <p>Automated JO template selection</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="row">
+            <div class="col-12">
+                {% for message in messages %}
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Upload Section -->
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="feature-card">
+                    <h3 class="text-center mb-4">
+                        <i class="fas fa-cloud-upload-alt text-primary"></i>
+                        Upload Document for Processing
+                    </h3>
+                    
+                    <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt fa-4x text-muted mb-3"></i>
+                            <h5>Drag & Drop or Click to Upload</h5>
+                            <p class="text-muted">Supported formats: PDF, JPG, PNG, TIFF (Max 16MB)</p>
+                            <input type="file" name="document" id="fileInput" class="d-none" accept=".pdf,.jpg,.jpeg,.png,.tiff" required>
+                            <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('fileInput').click()">
+                                <i class="fas fa-folder-open mr-2"></i>
+                                Choose File
+                            </button>
+                            <div id="fileInfo" class="file-info d-none">
+                                <strong>Selected file:</strong> <span id="fileName"></span><br>
+                                <strong>Size:</strong> <span id="fileSize"></span><br>
+                                <strong>Type:</strong> <span id="fileType"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success btn-lg" id="submitBtn" disabled>
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Process Document
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3 class="text-center mb-5">System Features</h3>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <i class="fas fa-brain fa-3x text-primary mb-3"></i>
+                    <h5>Smart OCR Engine</h5>
+                    <p>Advanced preprocessing and Tesseract OCR with >95% accuracy for Malaysian business documents.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <i class="fas fa-search fa-3x text-success mb-3"></i>
+                    <h5>Data Extraction</h5>
+                    <p>Intelligent pattern recognition for PO numbers, dates, amounts, door dimensions, and more.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <i class="fas fa-file-contract fa-3x text-warning mb-3"></i>
+                    <h5>Job Order Templates</h5>
+                    <p>Automatic template selection and PDF generation for door manufacturing workflows.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Template Types -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3 class="text-center mb-4">Job Order Templates</h3>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h6 class="mb-0">Template A: Door & Frame</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> Door dimensions</li>
+                            <li><i class="fas fa-check text-success"></i> Frame specifications</li>
+                            <li><i class="fas fa-check text-success"></i> Material type</li>
+                            <li><i class="fas fa-check text-success"></i> Hardware requirements</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h6 class="mb-0">Template B: Product-Specific</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> Product code/model</li>
+                            <li><i class="fas fa-check text-success"></i> Custom specifications</li>
+                            <li><i class="fas fa-check text-success"></i> Manufacturing instructions</li>
+                            <li><i class="fas fa-check text-success"></i> Quality requirements</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-warning text-white">
+                        <h6 class="mb-0">Template C: Custom</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> Flexible fields</li>
+                            <li><i class="fas fa-check text-success"></i> Special instructions</li>
+                            <li><i class="fas fa-check text-success"></i> Custom requirements</li>
+                            <li><i class="fas fa-check text-success"></i> Manual review</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p>&copy; 2025 Sendora OCR System - Localhost Demo</p>
+            <p class="small">AI-Powered Door Manufacturing Automation</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // File upload handling
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Drag and drop functionality
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFileSelect();
+            }
+        });
+
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect() {
+            const file = fileInput.files[0];
+            if (file) {
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileSize').textContent = formatFileSize(file.size);
+                document.getElementById('fileType').textContent = file.type || 'Unknown';
+                fileInfo.classList.remove('d-none');
+                submitBtn.disabled = false;
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Form submission with AJAX
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+            
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Please select a file first');
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+            submitBtn.disabled = true;
+            
+            // Create FormData
+            const formData = new FormData();
+            formData.append('document', file);
+            
+            // Upload with fetch
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Redirect to validation page
+                    window.location.href = data.redirect;
+                } else {
+                    alert('Error: ' + (data.error || 'Processing failed'));
+                    // Reset button
+                    submitBtn.innerHTML = '<i class="fas fa-magic mr-2"></i>Process Document';
+                    submitBtn.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Upload error:', error);
+                alert('Upload failed: ' + error.message);
+                // Reset button
+                submitBtn.innerHTML = '<i class="fas fa-magic mr-2"></i>Process Document';
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>

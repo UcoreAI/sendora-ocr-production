@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendora Job Order</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            color: black;
+            font-size: 10px;
+            line-height: 1.2;
+        }
+        
+        .jo-page {
+            width: 1122px;
+            height: 793px;
+            position: relative;
+            border: 1px solid #000;
+            background: white;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        /* Header Section */
+        .header-section {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            height: 80px;
+        }
+        
+        .company-name {
+            position: absolute;
+            top: 10px;
+            left: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .form-type {
+            position: absolute;
+            top: 10px;
+            right: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid #000;
+            padding: 8px 16px;
+            background: white;
+        }
+        
+        .form-title {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: bold;
+            border: 1px solid #000;
+            padding: 6px 20px;
+            background: white;
+        }
+        
+        /* Form Fields Section */
+        .form-fields {
+            position: absolute;
+            top: 100px;
+            left: 15px;
+            right: 15px;
+            height: 60px;
+        }
+        
+        .field-group {
+            position: absolute;
+        }
+        
+        .field-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .field-value {
+            font-size: 10px;
+            color: #000;
+            margin-left: 5px;
+            min-width: 120px;
+            display: inline-block;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 2px;
+        }
+        
+        /* Left column fields */
+        .job-order-no { top: 5px; left: 30px; }
+        .job-order-date { top: 25px; left: 30px; }
+        .po-no { top: 45px; left: 30px; }
+        
+        /* Right column fields */
+        .delivery-date { top: 5px; right: 30px; }
+        .customer-name { top: 25px; right: 30px; }
+        .measure-by { top: 45px; right: 30px; }
+        
+        /* Table Section */
+        .table-section {
+            position: absolute;
+            top: 180px;
+            left: 15px;
+            right: 15px;
+            height: 320px;
+        }
+        
+        .jo-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid #000;
+            font-size: 9px;
+        }
+        
+        .jo-table th,
+        .jo-table td {
+            border: 1px solid #000;
+            padding: 4px 2px;
+            text-align: center;
+            vertical-align: top;
+            position: relative;
+        }
+        
+        .jo-table th {
+            background: #f0f0f0;
+            font-weight: bold;
+            font-size: 9px;
+            height: 40px;
+            line-height: 1.1;
+        }
+        
+        .jo-table .data-row {
+            height: 70px;
+        }
+        
+        /* Checkbox columns */
+        .checkbox-column {
+            width: 70px;
+            position: relative;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 2px;
+            font-size: 7px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2px;
+            width: 100%;
+        }
+        
+        .checkbox {
+            width: 8px;
+            height: 8px;
+            border: 1px solid #000;
+            margin-right: 3px;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .checkbox.checked::before {
+            content: '✓';
+            position: absolute;
+            top: -2px;
+            left: 0px;
+            font-size: 8px;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .checkbox-label {
+            font-size: 7px;
+            line-height: 1;
+            white-space: nowrap;
+        }
+        
+        /* Specific column widths */
+        .col-item { width: 40px; }
+        .col-laminate { width: 80px; }
+        .col-thickness { width: 70px; }
+        .col-size { width: 90px; }
+        .col-type { width: 70px; }
+        .col-core { width: 80px; }
+        .col-edging { width: 70px; }
+        .col-decorative { width: 70px; }
+        .col-design { width: 80px; }
+        .col-hole { width: 80px; }
+        .col-remark { width: 100px; }
+        
+        /* Footer Section */
+        .footer-section {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            right: 15px;
+            height: 80px;
+        }
+        
+        .signature-group {
+            position: absolute;
+            width: 250px;
+            height: 70px;
+            font-size: 9px;
+        }
+        
+        .signature-group.left { left: 30px; }
+        .signature-group.center { left: 50%; transform: translateX(-50%); }
+        .signature-group.right { right: 30px; }
+        
+        .signature-line {
+            margin-bottom: 8px;
+        }
+        
+        .signature-label {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .signature-role {
+            font-size: 8px;
+            color: #666;
+        }
+        
+        .signature-date {
+            font-size: 8px;
+            margin-top: 5px;
+        }
+        
+        /* Location fields within table rows */
+        .location-field {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            font-size: 7px;
+            color: #666;
+        }
+        
+        @media print {
+            body { margin: 0; }
+            .jo-page { margin: 0; }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="jo-page">
+        
+        <div class="header-section">
+            <div class="company-name">SENDORA GROUP SDN BHD (HQ)</div>
+            <div class="form-type">JOB ORDER</div>
+            <div class="form-title">DOOR</div>
+        </div>
+        
+        
+        <div class="form-fields">
+            <div class="field-group job-order-no">
+                <span class="field-label">Job Order No:</span>
+                <span class="field-value">KDI-2507-003</span>
+            </div>
+            <div class="field-group job-order-date">
+                <span class="field-label">Job Order Date:</span>
+                <span class="field-value">2025-08-13</span>
+            </div>
+            <div class="field-group po-no">
+                <span class="field-label">PO NO:</span>
+                <span class="field-value">PO-2025-001</span>
+            </div>
+            <div class="field-group delivery-date">
+                <span class="field-label">Delivery Date:</span>
+                <span class="field-value">2025-08-20</span>
+            </div>
+            <div class="field-group customer-name">
+                <span class="field-label">Customer Name:</span>
+                <span class="field-value">SENDORA GROUP SDN BHD</span>
+            </div>
+            <div class="field-group measure-by">
+                <span class="field-label">Measure By:</span>
+                <span class="field-value">Auto Generated</span>
+            </div>
+        </div>
+        
+        
+        <div class="table-section">
+            <table class="jo-table">
+                <thead>
+                    <tr>
+                        <th class="col-item">ITEM</th>
+                        <th class="col-laminate">LAMINATE<br>CODE</th>
+                        <th class="col-thickness">DOOR<br>THICKNESS</th>
+                        <th class="col-size">DOOR<br>SIZE</th>
+                        <th class="col-type">DOOR<br>TYPE</th>
+                        <th class="col-core">DOOR<br>CORE</th>
+                        <th class="col-edging">EDGING</th>
+                        <th class="col-decorative">DECORATIVE<br>LINE</th>
+                        <th class="col-design">DESIGN<br>NAME</th>
+                        <th class="col-hole">OPEN HOLE<br>TYPE</th>
+                        <th class="col-remark">DRAWING /<br>REMARK</th>
+                    </tr>
+                </thead>
+                <tbody>
+        
+            <tr class="data-row">
+                <td class="col-item">1</td>
+                <td class="col-laminate">6S-A057
+                    <div class="location-field">Location: 1</div>
+                </td>
+                <td class="col-thickness checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">37mm</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox checked"></div>
+                    <span class="checkbox-label">43mm</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">48mm</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Others</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-size">850MM x 2100MM</td>
+                <td class="col-type checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox checked"></div>
+                    <span class="checkbox-label">S/L</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">D/L</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Unequal D/L</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Others</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-core checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Honeycomb</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox checked"></div>
+                    <span class="checkbox-label">Solid Tubular Core</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox checked"></div>
+                    <span class="checkbox-label">Solid Timber</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Metal Skeleton</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-edging checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox checked"></div>
+                    <span class="checkbox-label">NA Lipping</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">ABS Edging</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">No Edging</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-decorative checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox checked"></div>
+                    <span class="checkbox-label">T-bar</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Groove Line</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-design"></td>
+                <td class="col-hole"></td>
+                <td class="col-remark"></td>
+            </tr>
+        
+            <tr class="data-row">
+                <td class="col-item"></td>
+                <td class="col-laminate">
+                    <div class="location-field">Location: 2</div>
+                </td>
+                <td class="col-thickness checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">37mm</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">43mm</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">48mm</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Others</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-size"></td>
+                <td class="col-type checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">S/L</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">D/L</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Unequal D/L</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Others</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-core checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Honeycomb</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Solid Tubular Core</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Solid Timber</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Metal Skeleton</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-edging checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">NA Lipping</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">ABS Edging</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">No Edging</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-decorative checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">T-bar</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Groove Line</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-design"></td>
+                <td class="col-hole"></td>
+                <td class="col-remark"></td>
+            </tr>
+        
+            <tr class="data-row">
+                <td class="col-item"></td>
+                <td class="col-laminate">
+                    <div class="location-field">Location: 3</div>
+                </td>
+                <td class="col-thickness checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">37mm</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">43mm</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">48mm</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Others</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-size"></td>
+                <td class="col-type checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">S/L</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">D/L</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Unequal D/L</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Others</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-core checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Honeycomb</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Solid Tubular Core</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Solid Timber</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Metal Skeleton</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-edging checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">NA Lipping</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">ABS Edging</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">No Edging</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-decorative checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">T-bar</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Groove Line</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-design"></td>
+                <td class="col-hole"></td>
+                <td class="col-remark"></td>
+            </tr>
+        
+            <tr class="data-row">
+                <td class="col-item"></td>
+                <td class="col-laminate">
+                    <div class="location-field">Location: 4</div>
+                </td>
+                <td class="col-thickness checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">37mm</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">43mm</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">48mm</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Others</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-size"></td>
+                <td class="col-type checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">S/L</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">D/L</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Unequal D/L</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Others</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-core checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Honeycomb</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Solid Tubular Core</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Solid Timber</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Metal Skeleton</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-edging checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">NA Lipping</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">ABS Edging</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">No Edging</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-decorative checkbox-column">
+                    <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">T-bar</span>
+                </div>
+            
+                <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <span class="checkbox-label">Groove Line</span>
+                </div>
+            </div>
+                </td>
+                <td class="col-design"></td>
+                <td class="col-hole"></td>
+                <td class="col-remark"></td>
+            </tr>
+        
+                </tbody>
+            </table>
+        </div>
+        
+        
+        <div class="footer-section">
+            <div class="signature-group left">
+                <div class="signature-label">Prepare by,</div>
+                <div class="signature-role">Sales Executive :</div>
+                <div class="signature-date">Date :</div>
+            </div>
+            <div class="signature-group center">
+                <div class="signature-label">Checked by,</div>
+                <div class="signature-role">Sales Admin</div>
+                <div class="signature-date">Date :</div>
+            </div>
+            <div class="signature-group right">
+                <div class="signature-label">Verify by,</div>
+                <div class="signature-role">Production Supervisor :</div>
+                <div class="signature-date">Date :</div>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>

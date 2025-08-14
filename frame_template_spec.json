@@ -1,0 +1,332 @@
+{
+  "template_path": "C:\\Users\\USER\\Desktop\\Project management\\Sendora\\Material\\JOB ORDER FORM  - FRAME.pdf",
+  "page_size": [
+    841.6799926757812,
+    595.2000122070312
+  ],
+  "header_fields": {
+    "rebated": {
+      "text": "REBATED",
+      "x": 218.92999267578125,
+      "y": 109.06832885742188,
+      "width": 35.1292724609375,
+      "height": 10.176475524902344,
+      "font": "ArialNarrow-Bold",
+      "size": 8.880000114440918,
+      "flags": 16
+    },
+    "job_order_no": {
+      "text": "Job Order No:",
+      "x": 78.6240005493164,
+      "y": 40.89887619018555,
+      "width": 60.496803283691406,
+      "height": 12.514320373535156,
+      "font": "ArialNarrow-Bold",
+      "size": 10.920000076293945,
+      "flags": 16
+    },
+    "job_order_date": {
+      "text": "Job Order Date:",
+      "x": 71.06400299072266,
+      "y": 55.17890548706055,
+      "width": 68.0534439086914,
+      "height": 12.51431655883789,
+      "font": "ArialNarrow-Bold",
+      "size": 10.920000076293945,
+      "flags": 16
+    },
+    "delivery_date": {
+      "text": "Delivery Date:",
+      "x": 530.1400146484375,
+      "y": 40.89887619018555,
+      "width": 60.147216796875,
+      "height": 12.514320373535156,
+      "font": "ArialNarrow-Bold",
+      "size": 10.920000076293945,
+      "flags": 16
+    },
+    "po_no": {
+      "text": "PO NO:",
+      "x": 107.30000305175781,
+      "y": 68.97888946533203,
+      "width": 31.886398315429688,
+      "height": 12.514320373535156,
+      "font": "ArialNarrow-Bold",
+      "size": 10.920000076293945,
+      "flags": 16
+    },
+    "customer_name": {
+      "text": "Customer Name:",
+      "x": 530.1400146484375,
+      "y": 55.17890548706055,
+      "width": 71.919189453125,
+      "height": 12.51431655883789,
+      "font": "ArialNarrow-Bold",
+      "size": 10.920000076293945,
+      "flags": 16
+    },
+    "measure_by": {
+      "text": "Measure by :",
+      "x": 530.1400146484375,
+      "y": 68.97888946533203,
+      "width": 55.0804443359375,
+      "height": 12.514320373535156,
+      "font": "ArialNarrow-Bold",
+      "size": 10.920000076293945,
+      "flags": 16
+    },
+    "inner_or_outer": {
+      "text": "INNER OR OUTER",
+      "x": 455.2300109863281,
+      "y": 108.58834838867188,
+      "width": 63.074554443359375,
+      "height": 10.176475524902344,
+      "font": "ArialNarrow-Bold",
+      "size": 8.880000114440918,
+      "flags": 16
+    },
+    "frame_profile": {
+      "text": "FRAME PROFILE",
+      "x": 535.6599731445312,
+      "y": 108.58834838867188,
+      "width": 59.44268798828125,
+      "height": 10.176475524902344,
+      "font": "ArialNarrow-Bold",
+      "size": 8.880000114440918,
+      "flags": 16
+    },
+    "drawing_/_remark": {
+      "text": "DRAWING / REMARK",
+      "x": 654.8200073242188,
+      "y": 108.46832275390625,
+      "width": 73.730712890625,
+      "height": 10.176475524902344,
+      "font": "ArialNarrow-Bold",
+      "size": 8.880000114440918,
+      "flags": 16
+    },
+    "frame_width": {
+      "text": "FRAME WIDTH",
+      "x": 150.86000061035156,
+      "y": 108.58834838867188,
+      "width": 51.78816223144531,
+      "height": 10.176475524902344,
+      "font": "ArialNarrow-Bold",
+      "size": 8.880000114440918,
+      "flags": 16
+    },
+    "frame_size": {
+      "text": "FRAME SIZE",
+      "x": 331.25,
+      "y": 108.46832275390625,
+      "width": 44.0714111328125,
+      "height": 10.176475524902344,
+      "font": "ArialNarrow-Bold",
+      "size": 8.880000114440918,
+      "flags": 16
+    }
+  },
+  "text_elements": {
+    "page_0": {
+      "ITEM": {
+        "text": "ITEM",
+        "x": 60.98400115966797,
+        "y": 108.94833374023438,
+        "width": 17.342636108398438,
+        "height": 10.176475524902344,
+        "font": "ArialNarrow-Bold",
+        "size": 8.880000114440918,
+        "flags": 16
+      },
+      "Verify by,": {
+        "text": "Verify by,",
+        "x": 603.8200073242188,
+        "y": 505.67376708984375,
+        "width": 29.48199462890625,
+        "height": 9.96337890625,
+        "font": "Aptos Narrow",
+        "size": 8.15999984741211,
+        "flags": 4
+      },
+      "Prepare by,": {
+        "text": "Prepare by,",
+        "x": 55.944000244140625,
+        "y": 505.19378662109375,
+        "width": 36.687355041503906,
+        "height": 9.96337890625,
+        "font": "Aptos Narrow",
+        "size": 8.15999984741211,
+        "flags": 4
+      },
+      "Date :": {
+        "text": "Date :",
+        "x": 652.1799926757812,
+        "y": 557.0578002929688,
+        "width": 19.13519287109375,
+        "height": 9.96337890625,
+        "font": "Aptos Narrow",
+        "size": 8.15999984741211,
+        "flags": 4
+      },
+      "Checked by,": {
+        "text": "Checked by,",
+        "x": 359.3500061035156,
+        "y": 505.19378662109375,
+        "width": 40.1553955078125,
+        "height": 9.96337890625,
+        "font": "Aptos Narrow",
+        "size": 8.15999984741211,
+        "flags": 4
+      },
+      "Sales Executive :": {
+        "text": "Sales Executive :",
+        "x": 85.2239990234375,
+        "y": 546.73779296875,
+        "width": 54.14976501464844,
+        "height": 9.96337890625,
+        "font": "Aptos Narrow",
+        "size": 8.15999984741211,
+        "flags": 4
+      },
+      "Sales Admin :": {
+        "text": "Sales Admin :",
+        "x": 367.0299987792969,
+        "y": 547.0977783203125,
+        "width": 43.745758056640625,
+        "height": 9.96337890625,
+        "font": "Aptos Narrow",
+        "size": 8.15999984741211,
+        "flags": 4
+      },
+      "JOB ORDER": {
+        "text": "JOB ORDER",
+        "x": 680.280029296875,
+        "y": 15.147866249084473,
+        "width": 66.1728515625,
+        "height": 15.539759635925293,
+        "font": "ArialNarrow-Bold",
+        "size": 13.5600004196167,
+        "flags": 16
+      },
+      "SENDORA GROUP SDN BHD (HQ)": {
+        "text": "SENDORA GROUP SDN BHD (HQ)",
+        "x": 260.0899963378906,
+        "y": 15.147866249084473,
+        "width": 180.605712890625,
+        "height": 15.539759635925293,
+        "font": "ArialNarrow-Bold",
+        "size": 13.5600004196167,
+        "flags": 16
+      },
+      "FRAME": {
+        "text": "FRAME",
+        "x": 99.6240005493164,
+        "y": 97.54833984375,
+        "width": 27.92760467529297,
+        "height": 10.176475524902344,
+        "font": "ArialNarrow-Bold",
+        "size": 8.880000114440918,
+        "flags": 16
+      },
+      "Location :": {
+        "text": "Location :",
+        "x": 342.30999755859375,
+        "y": 485.4038391113281,
+        "width": 53.345001220703125,
+        "height": 15.539764404296875,
+        "font": "ArialNarrow-Bold",
+        "size": 13.5600004196167,
+        "flags": 16
+      },
+      "": {
+        "text": "",
+        "x": 453.30999755859375,
+        "y": 243.13113403320312,
+        "width": 7.27056884765625,
+        "height": 8.551681518554688,
+        "font": "Wingdings2",
+        "size": 8.15999984741211,
+        "flags": 0
+      },
+      "Production Supervisor :": {
+        "text": "Production Supervisor :",
+        "x": 596.02001953125,
+        "y": 546.73779296875,
+        "width": 75.2760009765625,
+        "height": 9.96337890625,
+        "font": "Aptos Narrow",
+        "size": 8.15999984741211,
+        "flags": 4
+      },
+      "1": {
+        "text": "1",
+        "x": 67.10399627685547,
+        "y": 171.35890197753906,
+        "width": 4.979522705078125,
+        "height": 12.514312744140625,
+        "font": "ArialNarrow",
+        "size": 10.920000076293945,
+        "flags": 0
+      },
+      "LAMINATE": {
+        "text": "LAMINATE",
+        "x": 93.74400329589844,
+        "y": 108.58834838867188,
+        "width": 39.684722900390625,
+        "height": 10.176475524902344,
+        "font": "ArialNarrow-Bold",
+        "size": 8.880000114440918,
+        "flags": 16
+      },
+      "CODE": {
+        "text": "CODE",
+        "x": 102.13999938964844,
+        "y": 119.62832641601562,
+        "width": 21.036720275878906,
+        "height": 10.176483154296875,
+        "font": "ArialNarrow-Bold",
+        "size": 8.880000114440918,
+        "flags": 16
+      },
+      "SGSB (v050625)": {
+        "text": "SGSB (v050625)",
+        "x": 712.6799926757812,
+        "y": 570.1199951171875,
+        "width": 72.0029296875,
+        "height": 11.0400390625,
+        "font": "Calibri-BoldItalic",
+        "size": 11.039999961853027,
+        "flags": 18
+      }
+    }
+  },
+  "form_fields": {},
+  "table_structure": {
+    "page_0": []
+  },
+  "checkbox_groups": {
+    "frame_type": {
+      "INNER": {
+        "text": "INNER",
+        "x": 484.6300048828125,
+        "y": 334.848876953125,
+        "width": 27.92236328125,
+        "height": 12.51434326171875,
+        "font": "ArialNarrow",
+        "size": 10.920000076293945,
+        "flags": 0
+      },
+      "OUTER": {
+        "text": "OUTER",
+        "x": 482.95001220703125,
+        "y": 381.64886474609375,
+        "width": 31.384033203125,
+        "height": 12.51434326171875,
+        "font": "ArialNarrow",
+        "size": 10.920000076293945,
+        "flags": 0
+      }
+    }
+  },
+  "signature_areas": {}
+}

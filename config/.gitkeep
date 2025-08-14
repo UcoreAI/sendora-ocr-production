@@ -1,0 +1,3 @@
+# Keep this directory in Git
+# IMPORTANT: Do NOT commit google-credentials.json to Git
+# Upload it directly to your VPS after deployment

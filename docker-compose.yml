@@ -1,0 +1,139 @@
+version: '3.8'
+
+services:
+  sendora-ocr:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sendora-ocr-app
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      # Production settings
+      - FLASK_ENV=production
+      - FLASK_APP=backend.app_v2:app
+      - SECRET_KEY=${SECRET_KEY:-fallback-secret-key-change-in-production}
+      
+      # Google Cloud configuration
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/config/google-credentials.json
+      - GOOGLE_PROJECT_ID=my-textbee-sms
+      
+      # Application settings
+      - MAX_CONTENT_LENGTH=16777216
+      - UPLOAD_FOLDER=/app/uploads
+      - OUTPUT_FOLDER=/app/job_orders
+      
+      # Demo mode settings
+      - DEMO_MODE=true
+      - RATE_LIMIT_ENABLED=true
+      - MAX_REQUESTS_PER_MINUTE=10
+      - AUTO_CLEANUP_HOURS=2
+      
+      # Logging
+      - LOG_LEVEL=INFO
+      - PYTHONUNBUFFERED=1
+    
+    volumes:
+      # Persistent storage for uploads and outputs
+      - ./uploads:/app/uploads:rw
+      - ./job_orders:/app/job_orders:rw
+      - ./logs:/app/logs:rw
+      
+      # Google Cloud credentials (read-only)
+      - ./config/google-credentials.json:/app/config/google-credentials.json:ro
+      
+      # Temporary files
+      - ./temp:/app/temp:rw
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    
+    labels:
+      # Traefik configuration for Elestio
+      - "traefik.enable=true"
+      - "traefik.http.routers.sendora-ocr.rule=Host(\`sendora-ocr.elestio.app\`)"
+      - "traefik.http.routers.sendora-ocr.tls=true"
+      - "traefik.http.routers.sendora-ocr.tls.certresolver=letsencrypt"
+      - "traefik.http.services.sendora-ocr.loadbalancer.server.port=5000"
+      
+      # Additional Traefik middlewares for security
+      - "traefik.http.routers.sendora-ocr.middlewares=secure-headers,rate-limit"
+      - "traefik.http.middlewares.secure-headers.headers.customRequestHeaders.X-Forwarded-Proto=https"
+      - "traefik.http.middlewares.rate-limit.ratelimit.burst=20"
+    
+    networks:
+      - sendora-network
+    
+    # Resource limits for demo environment
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+
+  # Redis for session management and rate limiting (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: sendora-ocr-redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    networks:
+      - sendora-network
+    volumes:
+      - redis-data:/data
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  # File cleanup service
+  cleanup:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sendora-ocr-cleanup
+    restart: unless-stopped
+    command: ["python", "-c", "
+      import time, os, glob
+      from datetime import datetime, timedelta
+      
+      def cleanup_old_files():
+          # Clean uploads older than 2 hours
+          cutoff = datetime.now() - timedelta(hours=2)
+          for folder in ['/app/uploads', '/app/job_orders', '/app/temp']:
+              for file in glob.glob(f'{folder}/*'):
+                  if os.path.isfile(file):
+                      file_time = datetime.fromtimestamp(os.path.getmtime(file))
+                      if file_time < cutoff:
+                          os.remove(file)
+                          print(f'Cleaned up: {file}')
+      
+      while True:
+          cleanup_old_files()
+          time.sleep(1800)  # Run every 30 minutes
+    "]
+    volumes:
+      - ./uploads:/app/uploads:rw
+      - ./job_orders:/app/job_orders:rw
+      - ./temp:/app/temp:rw
+    networks:
+      - sendora-network
+    depends_on:
+      - sendora-ocr
+
+networks:
+  sendora-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+    driver: local

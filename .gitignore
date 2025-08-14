@@ -1,0 +1,66 @@
+# Sendora OCR Git Ignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache/
+*.egg-info/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Uploads (temporary files)
+uploads/*
+!uploads/.gitkeep
+job_orders/*
+!job_orders/.gitkeep
+temp/*
+!temp/.gitkeep
+
+# Environment variables
+.env
+
+# Google Cloud Credentials (IMPORTANT: Keep secure)
+config/google-credentials.json
+
+# Runtime files
+*.pid
+*.seed
+*.lock
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker
+.dockerignore
+
+# Testing
+.coverage
+htmlcov/
+.tox/
+
+# Distribution
+build/
+dist/

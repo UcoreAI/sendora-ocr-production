@@ -1,0 +1,82 @@
+
+SENDORA JO FILLABLE FORM CREATION GUIDE
+======================================
+
+STEP 1: Install Adobe Acrobat Pro DC (Required)
+- Download from Adobe Creative Cloud
+- Professional PDF editing tool required for adding form fields
+
+STEP 2: Convert Each Template to Fillable Form
+
+FOR DOOR TEMPLATE:
+1. Open: C:\Users\USER\Desktop\Project management\Sendora\Material\JOB ORDER FORM -DOOR.pdf
+2. Go to Tools → Prepare Form
+3. Let Acrobat auto-detect fields, then add these specific fields:
+
+HEADER FIELDS (Text Fields):
+- job_order_no (in Job Order No area)
+- job_order_date (in Job Order Date area) 
+- customer_name (in Customer Name area)
+- po_no (in PO NO area)
+- delivery_date (in Delivery Date area)
+- measure_by (in Measure By area)
+
+TABLE FIELDS (Text Fields):
+- item_1_number (first row, ITEM column)
+- item_1_laminate (first row, LAMINATE CODE column)
+- item_1_size (first row, DOOR SIZE column)
+- item_1_location (first row, Location area)
+
+- item_2_number (second row, ITEM column)
+- item_2_laminate (second row, LAMINATE CODE column)
+- item_2_size (second row, DOOR SIZE column)
+- item_2_location (second row, Location area)
+
+CHECKBOX FIELDS (Checkboxes):
+DOOR THICKNESS group:
+- door_thickness_37mm (37mm checkbox)
+- door_thickness_43mm (43mm checkbox)
+- door_thickness_48mm (48mm checkbox)
+
+DOOR TYPE group:
+- door_type_sl (S/L checkbox)
+- door_type_dl (D/L checkbox)
+- door_type_unequal (Unequal D/L checkbox)
+
+DOOR CORE group:
+- door_core_honeycomb (Honeycomb checkbox)
+- door_core_solid_tubular (Solid Tubular Core checkbox)
+- door_core_solid_timber (Solid Timber checkbox)
+- door_core_metal (Metal Skeleton checkbox)
+
+EDGING group:
+- edging_na_lipping (NA Lipping checkbox)
+- edging_abs (ABS Edging checkbox)
+- edging_no (No Edging checkbox)
+
+DECORATIVE LINE group:
+- decorative_tbar (T-bar checkbox)
+- decorative_groove (Groove Line checkbox)
+
+FOOTER FIELDS (Text Fields):
+- prepare_by (bottom left)
+- checked_by (bottom center)
+- verify_by (bottom right)
+
+STEP 3: Save as Fillable Form
+- Save as: fillable_door_form.pdf
+- Save to: C:\Users\USER\Desktop\Sendora-OCR-Complete-Project\fillable_templates\
+
+STEP 4: Repeat for Other Templates
+- Create fillable_frame_form.pdf
+- Create fillable_combined_form.pdf
+
+FIELD NAMING RULES:
+- Use lowercase with underscores
+- Be descriptive and consistent
+- Group related fields with prefixes
+- Checkbox values: "Yes" for checked, "Off" for unchecked
+
+TESTING:
+After creating fillable forms, test with our PyPDF system:
+python pypdf_form_filler.py

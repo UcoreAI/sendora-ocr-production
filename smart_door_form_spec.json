@@ -1,0 +1,258 @@
+{
+  "page_size": [
+    841.6799926757812,
+    595.2000122070312
+  ],
+  "form_fields": {
+    "job_order_no": {
+      "x": 140,
+      "y": 71,
+      "width": 150,
+      "height": 20,
+      "font": "Helvetica",
+      "size": 10,
+      "align": "left"
+    },
+    "job_order_date": {
+      "x": 145,
+      "y": 91,
+      "width": 150,
+      "height": 20,
+      "font": "Helvetica",
+      "size": 10,
+      "align": "left"
+    },
+    "customer_name": {
+      "x": 750,
+      "y": 91,
+      "width": 200,
+      "height": 20,
+      "font": "Helvetica",
+      "size": 10,
+      "align": "left"
+    },
+    "po_no": {
+      "x": 100,
+      "y": 111,
+      "width": 150,
+      "height": 20,
+      "font": "Helvetica",
+      "size": 10,
+      "align": "left"
+    },
+    "delivery_date": {
+      "x": 750,
+      "y": 71,
+      "width": 100,
+      "height": 20,
+      "font": "Helvetica",
+      "size": 10,
+      "align": "left"
+    },
+    "measure_by": {
+      "x": 700,
+      "y": 111,
+      "width": 150,
+      "height": 20,
+      "font": "Helvetica",
+      "size": 10,
+      "align": "left"
+    }
+  },
+  "table_rows": [
+    {
+      "row": 1,
+      "y": 195,
+      "item_x": 40,
+      "laminate_x": 75,
+      "thickness_x": 155,
+      "size_x": 240,
+      "type_x": 340,
+      "core_x": 390,
+      "edging_x": 470,
+      "decorative_x": 520,
+      "design_x": 580,
+      "hole_x": 640,
+      "remark_x": 700
+    },
+    {
+      "row": 2,
+      "y": 295,
+      "item_x": 40,
+      "laminate_x": 75,
+      "thickness_x": 155,
+      "size_x": 240,
+      "type_x": 340,
+      "core_x": 390,
+      "edging_x": 470,
+      "decorative_x": 520,
+      "design_x": 580,
+      "hole_x": 640,
+      "remark_x": 700
+    },
+    {
+      "row": 3,
+      "y": 395,
+      "item_x": 40,
+      "laminate_x": 75,
+      "thickness_x": 155,
+      "size_x": 240,
+      "type_x": 340,
+      "core_x": 390,
+      "edging_x": 470,
+      "decorative_x": 520,
+      "design_x": 580,
+      "hole_x": 640,
+      "remark_x": 700
+    },
+    {
+      "row": 4,
+      "y": 495,
+      "item_x": 40,
+      "laminate_x": 75,
+      "thickness_x": 155,
+      "size_x": 240,
+      "type_x": 340,
+      "core_x": 390,
+      "edging_x": 470,
+      "decorative_x": 520,
+      "design_x": 580,
+      "hole_x": 640,
+      "remark_x": 700
+    }
+  ],
+  "checkboxes": {
+    "door_thickness": [
+      {
+        "option": "37mm",
+        "x": 143,
+        "y": 207,
+        "size": 8
+      },
+      {
+        "option": "43mm",
+        "x": 143,
+        "y": 225,
+        "size": 8
+      },
+      {
+        "option": "48mm",
+        "x": 143,
+        "y": 242,
+        "size": 8
+      },
+      {
+        "option": "Others",
+        "x": 143,
+        "y": 260,
+        "size": 8
+      }
+    ],
+    "door_type": [
+      {
+        "option": "S/L",
+        "x": 343,
+        "y": 207,
+        "size": 8
+      },
+      {
+        "option": "D/L",
+        "x": 343,
+        "y": 225,
+        "size": 8
+      },
+      {
+        "option": "Unequal D/L",
+        "x": 343,
+        "y": 242,
+        "size": 8
+      },
+      {
+        "option": "Others",
+        "x": 343,
+        "y": 260,
+        "size": 8
+      }
+    ],
+    "door_core": [
+      {
+        "option": "Honeycomb",
+        "x": 393,
+        "y": 207,
+        "size": 8
+      },
+      {
+        "option": "Solid Tubular Core",
+        "x": 393,
+        "y": 225,
+        "size": 8
+      },
+      {
+        "option": "Solid Timber",
+        "x": 393,
+        "y": 242,
+        "size": 8
+      },
+      {
+        "option": "Metal Skeleton",
+        "x": 393,
+        "y": 260,
+        "size": 8
+      }
+    ],
+    "edging": [
+      {
+        "option": "NA Lipping",
+        "x": 473,
+        "y": 207,
+        "size": 8
+      },
+      {
+        "option": "ABS Edging",
+        "x": 473,
+        "y": 225,
+        "size": 8
+      },
+      {
+        "option": "No Edging",
+        "x": 473,
+        "y": 242,
+        "size": 8
+      }
+    ],
+    "decorative_line": [
+      {
+        "option": "T-bar",
+        "x": 523,
+        "y": 207,
+        "size": 8
+      },
+      {
+        "option": "Groove Line",
+        "x": 523,
+        "y": 225,
+        "size": 8
+      }
+    ]
+  },
+  "footer_fields": {
+    "prepare_by": {
+      "x": 60,
+      "y": 545,
+      "width": 120,
+      "height": 15
+    },
+    "checked_by": {
+      "x": 350,
+      "y": 545,
+      "width": 120,
+      "height": 15
+    },
+    "verify_by": {
+      "x": 650,
+      "y": 545,
+      "width": 120,
+      "height": 15
+    }
+  }
+}

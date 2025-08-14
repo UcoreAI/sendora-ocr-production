@@ -1,0 +1,117 @@
+{
+  "page_size": [
+    594.2999877929688,
+    840.510009765625
+  ],
+  "header_fields": {
+    "job_order_no": {
+      "label_position": {
+        "x": 50,
+        "y": 100,
+        "width": 80,
+        "height": 12
+      },
+      "data_position": {
+        "x": 140,
+        "y": 100,
+        "width": 120,
+        "height": 12
+      },
+      "font_size": 10
+    },
+    "job_order_date": {
+      "label_position": {
+        "x": 300,
+        "y": 100,
+        "width": 90,
+        "height": 12
+      },
+      "data_position": {
+        "x": 400,
+        "y": 100,
+        "width": 100,
+        "height": 12
+      },
+      "font_size": 10
+    },
+    "customer_name": {
+      "label_position": {
+        "x": 50,
+        "y": 130,
+        "width": 100,
+        "height": 12
+      },
+      "data_position": {
+        "x": 160,
+        "y": 130,
+        "width": 300,
+        "height": 12
+      },
+      "font_size": 10
+    },
+    "po_no": {
+      "label_position": {
+        "x": 50,
+        "y": 160,
+        "width": 60,
+        "height": 12
+      },
+      "data_position": {
+        "x": 120,
+        "y": 160,
+        "width": 120,
+        "height": 12
+      },
+      "font_size": 10
+    },
+    "delivery_date": {
+      "label_position": {
+        "x": 300,
+        "y": 160,
+        "width": 90,
+        "height": 12
+      },
+      "data_position": {
+        "x": 400,
+        "y": 160,
+        "width": 100,
+        "height": 12
+      },
+      "font_size": 10
+    },
+    "measure_by": {
+      "label_position": {
+        "x": 50,
+        "y": 190,
+        "width": 80,
+        "height": 12
+      },
+      "data_position": {
+        "x": 140,
+        "y": 190,
+        "width": 150,
+        "height": 12
+      },
+      "font_size": 10
+    }
+  },
+  "door_table": {
+    "rows": [],
+    "columns": {},
+    "checkboxes": {
+      "door_thickness": {},
+      "door_type": {},
+      "door_core": {},
+      "edging": {},
+      "decorative_line": {}
+    },
+    "headers": {}
+  },
+  "frame_table": {
+    "headers": {},
+    "rows": [],
+    "checkboxes": {
+      "frame_type": {}
+    }
+  }
+}

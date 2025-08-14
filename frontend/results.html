@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Results - Sendora OCR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .results-header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 40px 0;
+        }
+        .result-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+        .ocr-text {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+        .extracted-field {
+            background: #e9ecef;
+            border-left: 4px solid #007bff;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .confidence-bar {
+            height: 20px;
+            border-radius: 10px;
+            background: #e9ecef;
+            overflow: hidden;
+        }
+        .confidence-fill {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        .template-badge {
+            background: #6c757d;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .template-badge.door_frame {
+            background: #007bff;
+        }
+        .template-badge.product_specific {
+            background: #28a745;
+        }
+        .template-badge.custom {
+            background: #ffc107;
+            color: #212529;
+        }
+        .action-buttons {
+            text-align: center;
+            padding: 30px 0;
+        }
+        .whatsapp-mock {
+            background: #25d366;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 25px;
+            margin: 5px;
+            font-weight: bold;
+        }
+        .whatsapp-mock:hover {
+            background: #128c7e;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-scan mr-2"></i>
+                Sendora OCR
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">
+                    <i class="fas fa-home mr-1"></i>
+                    Back to Upload
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Results Header -->
+    <div class="results-header">
+        <div class="container text-center">
+            <h1 class="display-5 mb-3">
+                <i class="fas fa-check-circle mr-3"></i>
+                Processing Complete!
+            </h1>
+            <p class="lead">Your document has been processed and Job Order generated</p>
+            <p class="mb-0">
+                <i class="fas fa-clock mr-2"></i>
+                Processed at: {{ result.processing_time }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Processing Summary -->
+        <div class="row">
+            <div class="col-12">
+                <div class="result-card">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4><i class="fas fa-file-alt text-primary mr-2"></i>Document Info</h4>
+                            <p><strong>Filename:</strong> {{ result.filename }}</p>
+                            <p><strong>Total Words Extracted:</strong> {{ result.ocr_result.word_count }}</p>
+                            <p><strong>Best Provider:</strong> 
+                                <span class="badge bg-info">{{ result.ocr_result.best_provider|title }}</span>
+                            </p>
+                            <p><strong>Template Selected:</strong> 
+                                <span class="template-badge {{ result.template_type }}">
+                                    {{ result.template_type|replace('_', ' ')|title }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h4><i class="fas fa-chart-line text-success mr-2"></i>OCR Confidence</h4>
+                            <div class="confidence-bar mb-2">
+                                <div class="confidence-fill bg-success" style="width: {{ (result.ocr_result.confidence * 100)|round }}%"></div>
+                            </div>
+                            <p class="mb-0">
+                                <strong>{{ "%.1f"|format(result.ocr_result.confidence * 100) }}%</strong> 
+                                Average Confidence
+                            </p>
+                            {% if result.ocr_result.provider_results %}
+                            <div class="mt-2">
+                                <small class="text-muted">
+                                    {% for provider, data in result.ocr_result.provider_results.items() %}
+                                        {{ provider|title }}: {{ "%.1f"|format(data.confidence * 100) }}% | 
+                                    {% endfor %}
+                                </small>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Extracted Data -->
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="result-card">
+                    <h4><i class="fas fa-search text-info mr-2"></i>Extracted Data Fields</h4>
+                    {% if result.extracted_data %}
+                        {% for field, value in result.extracted_data.items() %}
+                        <div class="extracted-field">
+                            <strong>{{ field|replace('_', ' ')|title }}:</strong>
+                            {% if value is mapping %}
+                                <ul class="mb-0 mt-1">
+                                    {% for k, v in value.items() %}
+                                    <li>{{ k|title }}: {{ v }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                {{ value }}
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            No specific data fields were automatically extracted. The full OCR text is available below.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="result-card">
+                    <h4><i class="fas fa-eye text-secondary mr-2"></i>Full OCR Text</h4>
+                    <div class="ocr-text">{{ result.ocr_result.full_text }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Order Actions -->
+        <div class="row">
+            <div class="col-12">
+                <div class="result-card">
+                    <h4 class="text-center mb-4">
+                        <i class="fas fa-file-pdf text-danger mr-2"></i>
+                        Generated Job Order
+                    </h4>
+                    
+                    <div class="action-buttons">
+                        <a href="/download_jo/{{ result.jo_filename }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-download mr-2"></i>
+                            Download Job Order PDF
+                        </a>
+                    </div>
+
+                    <!-- Mock WhatsApp Approval Workflow -->
+                    <div class="mt-4">
+                        <h5 class="text-center mb-3">
+                            <i class="fab fa-whatsapp text-success mr-2"></i>
+                            Mock Approval Workflow
+                        </h5>
+                        <div class="text-center">
+                            <p class="text-muted">Simulate WhatsApp approval notifications:</p>
+                            <a href="/approve/{{ result.jo_filename }}" class="btn whatsapp-mock">
+                                <i class="fas fa-check mr-2"></i>
+                                Approve JO
+                            </a>
+                            <a href="/reject/{{ result.jo_filename }}" class="btn btn-outline-danger">
+                                <i class="fas fa-times mr-2"></i>
+                                Reject JO
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Details -->
+        <div class="row">
+            <div class="col-12">
+                <div class="result-card">
+                    <h4><i class="fas fa-cogs text-warning mr-2"></i>Technical Details</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>OCR Processing</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success mr-2"></i>Image preprocessing applied</li>
+                                <li><i class="fas fa-check text-success mr-2"></i>Google Cloud Vision API</li>
+                                <li><i class="fas fa-check text-success mr-2"></i>Azure Computer Vision API</li>
+                                <li><i class="fas fa-check text-success mr-2"></i>Multi-provider confidence scoring</li>
+                                <li><i class="fas fa-check text-success mr-2"></i>Coordinate mapping & blocks</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Data Extraction</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success mr-2"></i>Pattern recognition applied</li>
+                                <li><i class="fas fa-check text-success mr-2"></i>Malaysian format support</li>
+                                <li><i class="fas fa-check text-success mr-2"></i>Multi-field extraction</li>
+                                <li><i class="fas fa-check text-success mr-2"></i>Template auto-selection</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h5><i class="fas fa-info-circle mr-2"></i>Next Steps</h5>
+                    <ol class="mb-0">
+                        <li>Review the extracted data for accuracy</li>
+                        <li>Download and verify the generated Job Order PDF</li>
+                        <li>Use the approval workflow to simulate WhatsApp notifications</li>
+                        <li>Test with different document types and formats</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p>&copy; 2025 Sendora OCR System - Localhost Demo</p>
+            <p class="small">Document processed successfully using AI-powered OCR technology</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

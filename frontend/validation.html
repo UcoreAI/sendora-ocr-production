@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendora OCR - Validate Extracted Data</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 24px;
+        }
+        
+        .validation-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .document-preview {
+            height: 700px;
+            overflow: hidden;
+        }
+        
+        .document-preview h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        #document-viewer {
+            width: 100%;
+            height: calc(100% - 40px);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .extracted-fields {
+            height: 700px;
+            overflow-y: auto;
+        }
+        
+        .extracted-fields h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .field-group {
+            margin-bottom: 20px;
+        }
+        
+        .field-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .field-group input,
+        .field-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .field-group input:focus,
+        .field-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .confidence-indicator {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .confidence-high {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .confidence-medium {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .confidence-low {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 25px 0 15px 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .line-items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .line-items-table th {
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .line-items-table td {
+            padding: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .line-items-table input,
+        .line-items-table select {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #e0e0e0;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        }
+        
+        .btn-add {
+            background: #6c757d;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        
+        .btn-add:hover {
+            background: #5a6268;
+        }
+        
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+            padding: 4px 12px;
+            font-size: 12px;
+        }
+        
+        .btn-remove:hover {
+            background: #c82333;
+        }
+        
+        .action-buttons {
+            margin-top: 30px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+        }
+        
+        .checkbox-item label {
+            font-weight: normal;
+            margin-bottom: 0;
+        }
+        
+        .status-message {
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
+        }
+        
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔍 Sendora OCR V2.0 - Data Validation & Mapping</h1>
+    </div>
+    
+    <div class="validation-container">
+        <!-- Left Panel: Document Preview -->
+        <div class="panel document-preview">
+            <h2>📄 Original Document</h2>
+            <iframe id="document-viewer" src=""></iframe>
+        </div>
+        
+        <!-- Right Panel: Extracted Fields -->
+        <div class="panel extracted-fields">
+            <h2>✏️ Validate & Edit Extracted Data</h2>
+            
+            <div id="status-message" class="status-message"></div>
+            
+            <form id="validation-form">
+                <input type="hidden" id="session_id" name="session_id" value="">
+                
+                <!-- Document Information -->
+                <div class="section-title">Document Information</div>
+                
+                <div class="field-group">
+                    <label>
+                        Invoice/PO Number
+                        <span id="conf-invoice" class="confidence-indicator"></span>
+                    </label>
+                    <input type="text" id="invoice_number" name="invoice_number" placeholder="e.g., INV-2024-001">
+                </div>
+                
+                <div class="field-group">
+                    <label>
+                        Customer Name
+                        <span id="conf-customer" class="confidence-indicator"></span>
+                    </label>
+                    <input type="text" id="customer_name" name="customer_name" placeholder="e.g., SENDORA GROUP SDN BHD">
+                </div>
+                
+                <div class="field-group">
+                    <label>Document Date</label>
+                    <input type="date" id="document_date" name="document_date">
+                </div>
+                
+                <div class="field-group">
+                    <label>Delivery Date</label>
+                    <input type="date" id="delivery_date" name="delivery_date">
+                </div>
+                
+                <div class="field-group">
+                    <label>Template Type</label>
+                    <select id="template_type" name="template_type">
+                        <option value="auto">Auto-Detect (Recommended)</option>
+                        <option value="door">Door Only Template</option>
+                        <option value="frame">Frame Only Template</option>
+                        <option value="combined">Combined (Door + Frame) Template</option>
+                    </select>
+                </div>
+                
+                <!-- Line Items -->
+                <div class="section-title">Line Items</div>
+                
+                <table class="line-items-table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Size (MM)</th>
+                            <th>Qty</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="line-items-body">
+                        <!-- Dynamic rows will be added here -->
+                    </tbody>
+                </table>
+                
+                <button type="button" class="btn btn-add" onclick="addLineItem()">
+                    + Add Line Item
+                </button>
+                
+                <!-- Door Specifications -->
+                <div class="section-title">Door Specifications</div>
+                
+                <div class="field-group">
+                    <label>Door Thickness</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="radio" id="thickness_37" name="door_thickness" value="37mm">
+                            <label for="thickness_37">37mm</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="thickness_43" name="door_thickness" value="43mm">
+                            <label for="thickness_43">43mm</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="thickness_48" name="door_thickness" value="48mm">
+                            <label for="thickness_48">48mm</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="thickness_other" name="door_thickness" value="other">
+                            <label for="thickness_other">Other</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field-group">
+                    <label>Door Type</label>
+                    <select name="door_type">
+                        <option value="">Not Specified</option>
+                        <option value="S/L">Single Leaf (S/L)</option>
+                        <option value="D/L">Double Leaf (D/L)</option>
+                        <option value="Unequal D/L">Unequal D/L</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="field-group">
+                    <label>Door Core</label>
+                    <select name="door_core">
+                        <option value="">Not Specified</option>
+                        <option value="honeycomb">Honeycomb</option>
+                        <option value="solid_tubular">Solid Tubular Core</option>
+                        <option value="solid_timber">Solid Timber</option>
+                        <option value="metal_skeleton">Metal Skeleton</option>
+                    </select>
+                </div>
+                
+                <div class="field-group">
+                    <label>Edging</label>
+                    <select name="door_edging">
+                        <option value="">Not Specified</option>
+                        <option value="na_lipping">NA Lipping</option>
+                        <option value="abs_edging">ABS Edging</option>
+                        <option value="no_edging">No Edging</option>
+                    </select>
+                </div>
+                
+                <!-- Frame Specifications -->
+                <div class="section-title">Frame Specifications</div>
+                
+                <div class="field-group">
+                    <label>Frame Type</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="radio" id="frame_inner" name="frame_type" value="inner">
+                            <label for="frame_inner">Inner</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="frame_outer" name="frame_type" value="outer">
+                            <label for="frame_outer">Outer</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field-group">
+                    <label>Frame Profile</label>
+                    <input type="text" name="frame_profile" placeholder="e.g., CH2">
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-primary" onclick="saveProgress()">
+                        💾 Save Progress
+                    </button>
+                    <button type="button" class="btn btn-success" onclick="generateJO()">
+                        📋 Generate Job Order
+                    </button>
+                </div>
+                
+                <div class="spinner" id="loading-spinner"></div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Global variables
+        let extractedData = null;
+        let sessionId = null;
+        
+        // Initialize page
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            sessionId = urlParams.get('session');
+            
+            if (sessionId) {
+                document.getElementById('session_id').value = sessionId;
+                loadExtractedData(sessionId);
+            } else {
+                showStatus('No session ID provided', 'error');
+            }
+        };
+        
+        // Load extracted data from server
+        function loadExtractedData(sessionId) {
+            showSpinner(true);
+            
+            fetch(`/api/get-extracted-data/${sessionId}`)
+                .then(response => response.json())
+                .then(data => {
+                    extractedData = data;
+                    populateForm(data);
+                    loadDocumentPreview(sessionId);
+                    showSpinner(false);
+                })
+                .catch(error => {
+                    showStatus('Error loading data: ' + error, 'error');
+                    showSpinner(false);
+                });
+        }
+        
+        // Populate form with extracted data
+        function populateForm(data) {
+            // Document information
+            setFieldWithConfidence('invoice_number', data.invoice_number, data.confidence_scores?.invoice_number);
+            setFieldWithConfidence('customer_name', data.customer?.name, data.confidence_scores?.customer_name);
+            
+            if (data.date) {
+                document.getElementById('document_date').value = formatDate(data.date);
+            }
+            
+            if (data.due_date) {
+                document.getElementById('delivery_date').value = formatDate(data.due_date);
+            }
+            
+            // Determine template type
+            if (data.document_type) {
+                const templateSelect = document.getElementById('template_type');
+                if (data.document_type.includes('door')) {
+                    templateSelect.value = 'door';
+                } else if (data.document_type.includes('frame')) {
+                    templateSelect.value = 'frame';
+                }
+            }
+            
+            // Load line items
+            if (data.line_items && data.line_items.length > 0) {
+                loadLineItems(data.line_items);
+            } else {
+                addLineItem(); // Add one empty row
+            }
+            
+            // Set specifications from first line item if available
+            if (data.line_items && data.line_items.length > 0 && data.line_items[0].specifications) {
+                const specs = data.line_items[0].specifications;
+                
+                // Door thickness
+                if (specs.thickness) {
+                    const thicknessRadio = document.querySelector(`input[name="door_thickness"][value="${specs.thickness}"]`);
+                    if (thicknessRadio) thicknessRadio.checked = true;
+                }
+                
+                // Door type
+                if (specs.type) {
+                    document.querySelector('select[name="door_type"]').value = specs.type;
+                }
+                
+                // Door core
+                if (specs.core) {
+                    document.querySelector('select[name="door_core"]').value = specs.core;
+                }
+                
+                // Frame type
+                if (specs.frame_type) {
+                    const frameRadio = document.querySelector(`input[name="frame_type"][value="${specs.frame_type}"]`);
+                    if (frameRadio) frameRadio.checked = true;
+                }
+            }
+        }
+        
+        // Set field value with confidence indicator
+        function setFieldWithConfidence(fieldId, value, confidence) {
+            const field = document.getElementById(fieldId);
+            if (field && value) {
+                field.value = value;
+            }
+            
+            // Set confidence indicator
+            const confElement = document.getElementById(`conf-${fieldId.split('_')[0]}`);
+            if (confElement && confidence !== undefined) {
+                const confPercent = Math.round(confidence * 100);
+                confElement.textContent = `${confPercent}%`;
+                
+                // Set confidence class
+                if (confidence >= 0.8) {
+                    confElement.className = 'confidence-indicator confidence-high';
+                } else if (confidence >= 0.6) {
+                    confElement.className = 'confidence-indicator confidence-medium';
+                } else {
+                    confElement.className = 'confidence-indicator confidence-low';
+                }
+            }
+        }
+        
+        // Load line items into table
+        function loadLineItems(items) {
+            const tbody = document.getElementById('line-items-body');
+            tbody.innerHTML = '';
+            
+            items.forEach((item, index) => {
+                addLineItemRow(item, index);
+            });
+        }
+        
+        // Add line item row
+        function addLineItemRow(item, index) {
+            const tbody = document.getElementById('line-items-body');
+            const row = tbody.insertRow();
+            
+            row.innerHTML = `
+                <td><input type="text" name="item_desc_${index}" value="${item?.description || ''}" placeholder="Door/Frame description"></td>
+                <td><input type="text" name="item_size_${index}" value="${item?.size || ''}" placeholder="850 x 2100"></td>
+                <td><input type="number" name="item_qty_${index}" value="${item?.quantity || 1}" min="1"></td>
+                <td>
+                    <select name="item_type_${index}">
+                        <option value="door" ${item?.specifications?.type ? 'selected' : ''}>Door</option>
+                        <option value="frame" ${item?.specifications?.frame_type ? 'selected' : ''}>Frame</option>
+                        <option value="other">Other</option>
+                    </select>
+                </td>
+                <td><button type="button" class="btn btn-remove" onclick="removeLineItem(this)">Remove</button></td>
+            `;
+        }
+        
+        // Add new line item
+        function addLineItem() {
+            const tbody = document.getElementById('line-items-body');
+            const index = tbody.rows.length;
+            addLineItemRow(null, index);
+        }
+        
+        // Remove line item
+        function removeLineItem(button) {
+            if (confirm('Remove this line item?')) {
+                button.closest('tr').remove();
+            }
+        }
+        
+        // Load document preview
+        function loadDocumentPreview(sessionId) {
+            const viewer = document.getElementById('document-viewer');
+            viewer.src = `/api/get-document/${sessionId}`;
+        }
+        
+        // Save progress
+        function saveProgress() {
+            showSpinner(true);
+            const formData = new FormData(document.getElementById('validation-form'));
+            
+            fetch('/api/save-validation', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                showStatus('Progress saved successfully!', 'success');
+                showSpinner(false);
+            })
+            .catch(error => {
+                showStatus('Error saving progress: ' + error, 'error');
+                showSpinner(false);
+            });
+        }
+        
+        // Generate Job Order
+        function generateJO() {
+            if (!confirm('Generate Job Order with the current data?')) {
+                return;
+            }
+            
+            showSpinner(true);
+            const formData = new FormData(document.getElementById('validation-form'));
+            
+            fetch('/api/generate-jo', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.blob();
+                }
+                throw new Error('Failed to generate JO');
+            })
+            .then(blob => {
+                // Download generated JO
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `JO_${sessionId}.pdf`;
+                a.click();
+                window.URL.revokeObjectURL(url);
+                
+                showStatus('Job Order generated successfully!', 'success');
+                showSpinner(false);
+            })
+            .catch(error => {
+                showStatus('Error generating JO: ' + error, 'error');
+                showSpinner(false);
+            });
+        }
+        
+        // Format date for input field
+        function formatDate(dateStr) {
+            try {
+                const date = new Date(dateStr);
+                return date.toISOString().split('T')[0];
+            } catch (e) {
+                return dateStr;
+            }
+        }
+        
+        // Show status message
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('status-message');
+            statusEl.textContent = message;
+            statusEl.className = `status-message status-${type}`;
+            statusEl.style.display = 'block';
+            
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Show/hide loading spinner
+        function showSpinner(show) {
+            const spinner = document.getElementById('loading-spinner');
+            spinner.style.display = show ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
