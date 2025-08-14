@@ -51,10 +51,10 @@ logger = logging.getLogger(__name__)
 
 # Rate limiter setup
 limiter = Limiter(
-    app,
     key_func=get_remote_address,
     default_limits=["100 per hour"] if app.config['RATE_LIMIT_ENABLED'] else []
 )
+limiter.init_app(app)
 
 # Global session storage (in production, use Redis)
 validation_sessions = {}
