@@ -38,8 +38,8 @@ class ProductionConfig:
     # Logging
     LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
 
-# Initialize Flask app
-app = Flask(__name__)
+# Initialize Flask app with custom template folder
+app = Flask(__name__, template_folder='../frontend')
 app.config.from_object(ProductionConfig)
 
 # Set up logging
