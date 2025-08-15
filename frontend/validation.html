@@ -471,18 +471,34 @@
         
         // Initialize page
         window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            sessionId = urlParams.get('session');
+            // Get session ID from URL path (e.g., /validate/abc-123-def)
+            const pathParts = window.location.pathname.split('/');
+            sessionId = pathParts[pathParts.length - 1];
             
-            if (sessionId) {
+            if (sessionId && sessionId !== 'validate') {
                 document.getElementById('session_id').value = sessionId;
-                loadExtractedData(sessionId);
+                populateFormFromTemplateData();
             } else {
                 showStatus('No session ID provided', 'error');
             }
         };
         
-        // Load extracted data from server
+        // Populate form with data from Flask template
+        function populateFormFromTemplateData() {
+            // Get data from template variables (injected by Flask)
+            const templateData = {{ data | tojson }};
+            const templateFilename = {{ filename | tojson }};
+            
+            if (templateData) {
+                extractedData = templateData;
+                populateForm(templateData);
+                showStatus(`Loaded data from ${templateFilename}`, 'success');
+            } else {
+                showStatus('No extracted data available', 'error');
+            }
+        }
+        
+        // Load extracted data from server (fallback)
         function loadExtractedData(sessionId) {
             showSpinner(true);
             
@@ -504,58 +520,64 @@
         function populateForm(data) {
             // Document information
             setFieldWithConfidence('invoice_number', data.invoice_number, data.confidence_scores?.invoice_number);
-            setFieldWithConfidence('customer_name', data.customer?.name, data.confidence_scores?.customer_name);
+            setFieldWithConfidence('customer_name', data.customer_name || data.customer?.name, data.confidence_scores?.customer_name);
             
-            if (data.date) {
-                document.getElementById('document_date').value = formatDate(data.date);
+            if (data.date || data.document_date) {
+                document.getElementById('document_date').value = formatDate(data.date || data.document_date);
             }
             
-            if (data.due_date) {
-                document.getElementById('delivery_date').value = formatDate(data.due_date);
+            if (data.due_date || data.delivery_date) {
+                document.getElementById('delivery_date').value = formatDate(data.due_date || data.delivery_date);
             }
             
-            // Determine template type
-            if (data.document_type) {
-                const templateSelect = document.getElementById('template_type');
-                if (data.document_type.includes('door')) {
-                    templateSelect.value = 'door';
-                } else if (data.document_type.includes('frame')) {
-                    templateSelect.value = 'frame';
-                }
-            }
-            
-            // Load line items
-            if (data.line_items && data.line_items.length > 0) {
-                loadLineItems(data.line_items);
+            // Add first line item with door size if available
+            if (data.door_size || data.item_size_0 || data.item_desc_0) {
+                const tbody = document.getElementById('line-items-body');
+                tbody.innerHTML = '';
+                
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td><input type="text" name="item_desc_0" value="${data.item_desc_0 || data.description || 'Fire Rated Door'}" placeholder="Door/Frame description"></td>
+                    <td><input type="text" name="item_size_0" value="${data.door_size || data.item_size_0 || ''}" placeholder="915MM x 2440MM"></td>
+                    <td><input type="number" name="item_qty_0" value="${data.quantity || 1}" min="1"></td>
+                    <td>
+                        <select name="item_type_0">
+                            <option value="door" selected>Door</option>
+                            <option value="frame">Frame</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </td>
+                    <td><button type="button" class="btn btn-remove" onclick="removeLineItem(this)">Remove</button></td>
+                `;
             } else {
-                addLineItem(); // Add one empty row
+                addLineItem(); // Add empty row if no data
             }
             
-            // Set specifications from first line item if available
-            if (data.line_items && data.line_items.length > 0 && data.line_items[0].specifications) {
-                const specs = data.line_items[0].specifications;
-                
-                // Door thickness
-                if (specs.thickness) {
-                    const thicknessRadio = document.querySelector(`input[name="door_thickness"][value="${specs.thickness}"]`);
-                    if (thicknessRadio) thicknessRadio.checked = true;
-                }
-                
-                // Door type
-                if (specs.type) {
-                    document.querySelector('select[name="door_type"]').value = specs.type;
-                }
-                
-                // Door core
-                if (specs.core) {
-                    document.querySelector('select[name="door_core"]').value = specs.core;
-                }
-                
-                // Frame type
-                if (specs.frame_type) {
-                    const frameRadio = document.querySelector(`input[name="frame_type"][value="${specs.frame_type}"]`);
-                    if (frameRadio) frameRadio.checked = true;
-                }
+            // Set door specifications from extracted data
+            if (data.door_thickness) {
+                const thicknessValue = data.door_thickness.includes('mm') ? data.door_thickness : data.door_thickness + 'mm';
+                const thicknessRadio = document.querySelector(`input[name="door_thickness"][value="${thicknessValue}"]`);
+                if (thicknessRadio) thicknessRadio.checked = true;
+            }
+            
+            if (data.door_type) {
+                const doorTypeSelect = document.querySelector('select[name="door_type"]');
+                if (doorTypeSelect) doorTypeSelect.value = data.door_type;
+            }
+            
+            if (data.door_core) {
+                const doorCoreSelect = document.querySelector('select[name="door_core"]');
+                if (doorCoreSelect) doorCoreSelect.value = data.door_core;
+            }
+            
+            if (data.door_edging) {
+                const edgingSelect = document.querySelector('select[name="door_edging"]');
+                if (edgingSelect) edgingSelect.value = data.door_edging;
+            }
+            
+            if (data.frame_type) {
+                const frameRadio = document.querySelector(`input[name="frame_type"][value="${data.frame_type}"]`);
+                if (frameRadio) frameRadio.checked = true;
             }
         }
         
@@ -627,30 +649,17 @@
             }
         }
         
-        // Load document preview
+        // Load document preview (disabled for now)
         function loadDocumentPreview(sessionId) {
             const viewer = document.getElementById('document-viewer');
-            viewer.src = `/api/get-document/${sessionId}`;
+            viewer.style.display = 'none';
+            const parent = viewer.parentElement;
+            parent.innerHTML = '<h2>📄 Original Document</h2><p>Document preview not available in this version.</p>';
         }
         
-        // Save progress
+        // Save progress (simplified)
         function saveProgress() {
-            showSpinner(true);
-            const formData = new FormData(document.getElementById('validation-form'));
-            
-            fetch('/api/save-validation', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                showStatus('Progress saved successfully!', 'success');
-                showSpinner(false);
-            })
-            .catch(error => {
-                showStatus('Error saving progress: ' + error, 'error');
-                showSpinner(false);
-            });
+            showStatus('Progress automatically saved with current data!', 'success');
         }
         
         // Generate Job Order
@@ -662,26 +671,31 @@
             showSpinner(true);
             const formData = new FormData(document.getElementById('validation-form'));
             
-            fetch('/api/generate-jo', {
+            // Use the correct endpoint that matches our Flask app
+            fetch(`/validate/${sessionId}`, {
                 method: 'POST',
                 body: formData
             })
-            .then(response => {
-                if (response.ok) {
-                    return response.blob();
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showStatus('Job Order generated successfully!', 'success');
+                    
+                    // Redirect to download or show download link
+                    if (data.download_url) {
+                        window.open(data.download_url, '_blank');
+                    }
+                    
+                    // Show preview option
+                    if (data.preview_url) {
+                        showStatus('Job Order ready! Opening preview...', 'success');
+                        setTimeout(() => {
+                            window.open(data.preview_url, '_blank');
+                        }, 1000);
+                    }
+                } else {
+                    throw new Error(data.error || 'Unknown error occurred');
                 }
-                throw new Error('Failed to generate JO');
-            })
-            .then(blob => {
-                // Download generated JO
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `JO_${sessionId}.pdf`;
-                a.click();
-                window.URL.revokeObjectURL(url);
-                
-                showStatus('Job Order generated successfully!', 'success');
                 showSpinner(false);
             })
             .catch(error => {
