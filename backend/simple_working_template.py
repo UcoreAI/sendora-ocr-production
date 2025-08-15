@@ -4,6 +4,7 @@ Clean, functional template that actually works
 """
 
 import os
+import subprocess
 from datetime import datetime
 from typing import Dict, Any
 import re
@@ -32,7 +33,13 @@ class SimpleWorkingTemplate:
             
             print(f"SUCCESS! Working JO generated: {html_filename}")
             
-            return html_path
+            # Generate PDF version
+            pdf_path = self.generate_pdf_from_html(html_path)
+            if pdf_path:
+                print(f"SUCCESS! PDF generated: {os.path.basename(pdf_path)}")
+                return pdf_path  # Return PDF path instead of HTML
+            
+            return html_path  # Fallback to HTML if PDF generation fails
             
         except Exception as e:
             print(f"Error generating working JO: {e}")
@@ -721,6 +728,45 @@ class SimpleWorkingTemplate:
         pattern = r'([0-9]+[A-Z]-[A-Z0-9]+)'
         match = re.search(pattern, description)
         return match.group(1) if match else "6S-A057"
+    
+    def generate_pdf_from_html(self, html_path: str) -> str:
+        """Convert HTML to PDF using wkhtmltopdf"""
+        try:
+            # Create PDF filename
+            pdf_path = html_path.replace('.html', '.pdf')
+            
+            # wkhtmltopdf command with optimal settings for Job Orders
+            cmd = [
+                'wkhtmltopdf',
+                '--page-size', 'A4',
+                '--margin-top', '8mm',
+                '--margin-bottom', '8mm', 
+                '--margin-left', '8mm',
+                '--margin-right', '8mm',
+                '--encoding', 'UTF-8',
+                '--enable-local-file-access',
+                '--print-media-type',
+                '--no-background',
+                html_path,
+                pdf_path
+            ]
+            
+            # Execute conversion
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+            
+            if result.returncode == 0 and os.path.exists(pdf_path):
+                print(f"PDF conversion successful: {os.path.basename(pdf_path)}")
+                return pdf_path
+            else:
+                print(f"PDF conversion failed: {result.stderr}")
+                return None
+                
+        except subprocess.TimeoutExpired:
+            print("PDF conversion timed out")
+            return None
+        except Exception as e:
+            print(f"PDF conversion error: {e}")
+            return None
     
 
 

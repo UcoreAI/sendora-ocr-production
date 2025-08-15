@@ -18,6 +18,7 @@ from functools import wraps
 # Import our core modules
 from backend.google_document_ai import GoogleDocumentProcessor
 from backend.simple_working_template import SimpleWorkingTemplate
+from backend.fixed_responsive_template import FixedResponsiveTemplate
 
 # Production configuration
 class ProductionConfig:
@@ -313,8 +314,9 @@ def validate_data_post(session_id):
                     validated_data[spec] = original_extracted_data[spec]
         
         # Generate Job Order
-        template_generator = SimpleWorkingTemplate()
-        jo_path = template_generator.generate_working_jo(validated_data)
+        # Use fixed responsive template for better alignment
+        template_generator = FixedResponsiveTemplate()
+        jo_path = template_generator.generate_fixed_jo(validated_data)
         
         # Update session
         validation_sessions[session_id]['status'] = 'completed'
@@ -370,10 +372,21 @@ def download_file(session_id):
         return jsonify({'error': 'Job Order not generated yet'}), 404
     
     try:
+        file_path = session_data['jo_path']
+        
+        # Determine file extension and appropriate download name
+        if file_path.endswith('.pdf'):
+            download_name = f"Sendora_JO_{session_id[:8]}.pdf"
+            mimetype = 'application/pdf'
+        else:
+            download_name = f"Sendora_JO_{session_id[:8]}.html"
+            mimetype = 'text/html'
+        
         return send_file(
-            session_data['jo_path'],
+            file_path,
             as_attachment=True,
-            download_name=f"Sendora_JO_{session_id[:8]}.html"
+            download_name=download_name,
+            mimetype=mimetype
         )
     except Exception as e:
         logger.error(f"Download failed: {e}")
