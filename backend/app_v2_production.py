@@ -19,6 +19,7 @@ from functools import wraps
 from backend.google_document_ai import GoogleDocumentProcessor
 from backend.simple_working_template import SimpleWorkingTemplate
 from backend.fixed_responsive_template import FixedResponsiveTemplate
+from backend.exact_replica_template import ExactReplicaTemplate
 
 # Production configuration
 class ProductionConfig:
@@ -313,10 +314,11 @@ def validate_data_post(session_id):
                 if spec not in validated_data or not validated_data[spec]:
                     validated_data[spec] = original_extracted_data[spec]
         
-        # Generate Job Order
-        # Use fixed responsive template for better alignment
-        template_generator = FixedResponsiveTemplate()
-        jo_path = template_generator.generate_fixed_jo(validated_data)
+        # Generate Job Order  
+        # Use the template that generated the working PDFs
+        from backend.correct_template_generator import CorrectTemplateGenerator
+        template_generator = CorrectTemplateGenerator()
+        jo_path = template_generator.generate_correct_jo(validated_data)
         
         # Update session
         validation_sessions[session_id]['status'] = 'completed'

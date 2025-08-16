@@ -26,9 +26,10 @@ class SimpleWorkingTemplate:
         # Generate HTML content
         html_content = self.create_working_template(validated_data)
         
-        # Save HTML file
+        # Save HTML file with proper UTF-8 encoding
         try:
-            with open(html_path, 'w', encoding='utf-8') as f:
+            # Ensure UTF-8 encoding for Unicode symbols
+            with open(html_path, 'w', encoding='utf-8', errors='replace') as f:
                 f.write(html_content)
             
             print(f"SUCCESS! Working JO generated: {html_filename}")
@@ -100,31 +101,31 @@ class SimpleWorkingTemplate:
                         break
         laminate_code = self.extract_laminate_code(item_desc)
         
-        # Generate checkbox states
-        thickness_37 = "checked" if "37" in door_thickness else ""
-        thickness_43 = "checked" if "43" in door_thickness else ""
-        thickness_46 = "checked" if "46" in door_thickness else ""
+        # Generate checkbox states using visual symbols
+        thickness_37 = "■" if "37" in door_thickness else "☐"
+        thickness_43 = "■" if "43" in door_thickness else "☐"
+        thickness_46 = "■" if "46" in door_thickness else "☐"
         
         # DEBUG: Print checkbox states
         print(f"CHECKBOX DEBUG - thickness_37: '{thickness_37}' (checking '37' in '{door_thickness}')")
         print(f"CHECKBOX DEBUG - thickness_43: '{thickness_43}' (checking '43' in '{door_thickness}')")  
         print(f"CHECKBOX DEBUG - thickness_46: '{thickness_46}' (checking '46' in '{door_thickness}')")
         
-        type_sl = "checked" if "s/l" in door_type else ""
-        type_dl = "checked" if "d/l" in door_type and "unequal" not in door_type else ""
-        type_unequal = "checked" if "unequal" in door_type else ""
+        type_sl = "■" if "s/l" in door_type else "☐"
+        type_dl = "■" if "d/l" in door_type and "unequal" not in door_type else "☐"
+        type_unequal = "■" if "unequal" in door_type else "☐"
         
-        core_honeycomb = "checked" if "honeycomb" in door_core else ""
-        core_tubular = "checked" if "tubular" in door_core else ""
-        core_timber = "checked" if "timber" in door_core else ""
-        core_metal = "checked" if "metal" in door_core else ""
+        core_honeycomb = "■" if "honeycomb" in door_core else "☐"
+        core_tubular = "■" if "tubular" in door_core else "☐"
+        core_timber = "■" if "timber" in door_core else "☐"
+        core_metal = "■" if "metal" in door_core else "☐"
         
-        edging_na = "checked" if "na lipping" in door_edging else ""
-        edging_abs = "checked" if "abs" in door_edging else ""
-        edging_no = "checked" if "no edging" in door_edging else ""
+        edging_na = "■" if "na lipping" in door_edging else "☐"
+        edging_abs = "■" if "abs" in door_edging else "☐"
+        edging_no = "■" if "no edging" in door_edging else "☐"
         
-        decorative_tbar = "checked" if "t-bar" in decorative_line else ""
-        decorative_groove = "checked" if "groove" in decorative_line else ""
+        decorative_tbar = "■" if "t-bar" in decorative_line else "☐"
+        decorative_groove = "■" if "groove" in decorative_line else "☐"
         
         return f'''<!DOCTYPE html>
 <html>
@@ -364,16 +365,16 @@ class SimpleWorkingTemplate:
                     <td>
                         <div class="checkbox-section">
                             <div class="checkbox-item">
-                                <span class="checkbox {thickness_37}"></span>37mm
+                                <span class="checkbox">{thickness_37}</span>37mm
                             </div>
                             <div class="checkbox-item">
-                                <span class="checkbox {thickness_43}"></span>43mm
+                                <span class="checkbox">{thickness_43}</span>43mm
                             </div>
                             <div class="checkbox-item">
-                                <span class="checkbox {thickness_46}"></span>46mm
+                                <span class="checkbox">{thickness_46}</span>46mm
                             </div>
                             <div class="checkbox-item">
-                                <span class="checkbox"></span>Others:
+                                <span class="checkbox">☐</span>Others:
                             </div>
                         </div>
                     </td>
@@ -385,55 +386,55 @@ class SimpleWorkingTemplate:
                     <td>
                         <div class="checkbox-section">
                             <div class="checkbox-item">
-                                <span class="checkbox {type_sl}"></span>S/L
+                                <span class="checkbox">{type_sl}</span>S/L
                             </div>
                             <div class="checkbox-item">
-                                <span class="checkbox {type_dl}"></span>D/L
+                                <span class="checkbox">{type_dl}</span>D/L
                             </div>
                             <div class="checkbox-item">
-                                <span class="checkbox {type_unequal}"></span>Unequal D/L
+                                <span class="checkbox">{type_unequal}</span>Unequal D/L
                             </div>
                             <div class="checkbox-item">
-                                <span class="checkbox"></span>Others:
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="checkbox-section">
-                            <div class="checkbox-item">
-                                <span class="checkbox {core_honeycomb}"></span>Honeycomb
-                            </div>
-                            <div class="checkbox-item">
-                                <span class="checkbox {core_tubular}"></span>Solid Tubular Core
-                            </div>
-                            <div class="checkbox-item">
-                                <span class="checkbox {core_timber}"></span>Solid Timber
-                            </div>
-                            <div class="checkbox-item">
-                                <span class="checkbox {core_metal}"></span>Metal Skeleton
+                                <span class="checkbox">☐</span>Others:
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="checkbox-section">
                             <div class="checkbox-item">
-                                <span class="checkbox {edging_na}"></span>NA Lipping
+                                <span class="checkbox">{core_honeycomb}</span>Honeycomb
                             </div>
                             <div class="checkbox-item">
-                                <span class="checkbox {edging_abs}"></span>ABS Edging
+                                <span class="checkbox">{core_tubular}</span>Solid Tubular Core
                             </div>
                             <div class="checkbox-item">
-                                <span class="checkbox {edging_no}"></span>No Edging
+                                <span class="checkbox">{core_timber}</span>Solid Timber
+                            </div>
+                            <div class="checkbox-item">
+                                <span class="checkbox">{core_metal}</span>Metal Skeleton
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="checkbox-section">
                             <div class="checkbox-item">
-                                <span class="checkbox {decorative_tbar}"></span>T-bar
+                                <span class="checkbox">{edging_na}</span>NA Lipping
                             </div>
                             <div class="checkbox-item">
-                                <span class="checkbox {decorative_groove}"></span>Groove Line
+                                <span class="checkbox">{edging_abs}</span>ABS Edging
+                            </div>
+                            <div class="checkbox-item">
+                                <span class="checkbox">{edging_no}</span>No Edging
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="checkbox-section">
+                            <div class="checkbox-item">
+                                <span class="checkbox">{decorative_tbar}</span>T-bar
+                            </div>
+                            <div class="checkbox-item">
+                                <span class="checkbox">{decorative_groove}</span>Groove Line
                             </div>
                         </div>
                     </td>
@@ -448,10 +449,10 @@ class SimpleWorkingTemplate:
                     <td></td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>37mm</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>43mm</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>46mm</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Others:</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>37mm</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>43mm</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>46mm</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Others:</div>
                         </div>
                     </td>
                     <td style="text-align: center;">
@@ -460,31 +461,31 @@ class SimpleWorkingTemplate:
                     </td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>S/L</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>D/L</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Unequal D/L</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Others:</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>S/L</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>D/L</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Unequal D/L</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Others:</div>
                         </div>
                     </td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>Honeycomb</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Solid Tubular Core</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Solid Timber</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Metal Skeleton</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Honeycomb</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Solid Tubular Core</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Solid Timber</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Metal Skeleton</div>
                         </div>
                     </td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>NA Lipping</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>ABS Edging</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>No Edging</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>NA Lipping</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>ABS Edging</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>No Edging</div>
                         </div>
                     </td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>T-bar</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Groove Line</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>T-bar</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Groove Line</div>
                         </div>
                     </td>
                     <td></td>
@@ -497,10 +498,10 @@ class SimpleWorkingTemplate:
                     <td></td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>37mm</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>43mm</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>46mm</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Others:</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>37mm</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>43mm</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>46mm</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Others:</div>
                         </div>
                     </td>
                     <td style="text-align: center;">
@@ -509,31 +510,31 @@ class SimpleWorkingTemplate:
                     </td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>S/L</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>D/L</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Unequal D/L</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Others:</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>S/L</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>D/L</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Unequal D/L</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Others:</div>
                         </div>
                     </td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>Honeycomb</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Solid Tubular Core</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Solid Timber</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Metal Skeleton</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Honeycomb</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Solid Tubular Core</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Solid Timber</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Metal Skeleton</div>
                         </div>
                     </td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>NA Lipping</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>ABS Edging</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>No Edging</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>NA Lipping</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>ABS Edging</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>No Edging</div>
                         </div>
                     </td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>T-bar</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Groove Line</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>T-bar</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Groove Line</div>
                         </div>
                     </td>
                     <td></td>
@@ -546,10 +547,10 @@ class SimpleWorkingTemplate:
                     <td></td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>37mm</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>43mm</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>46mm</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Others:</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>37mm</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>43mm</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>46mm</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Others:</div>
                         </div>
                     </td>
                     <td style="text-align: center;">
@@ -558,31 +559,31 @@ class SimpleWorkingTemplate:
                     </td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>S/L</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>D/L</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Unequal D/L</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Others:</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>S/L</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>D/L</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Unequal D/L</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Others:</div>
                         </div>
                     </td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>Honeycomb</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Solid Tubular Core</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Solid Timber</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Metal Skeleton</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Honeycomb</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Solid Tubular Core</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Solid Timber</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Metal Skeleton</div>
                         </div>
                     </td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>NA Lipping</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>ABS Edging</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>No Edging</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>NA Lipping</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>ABS Edging</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>No Edging</div>
                         </div>
                     </td>
                     <td>
                         <div class="checkbox-section">
-                            <div class="checkbox-item"><span class="checkbox"></span>T-bar</div>
-                            <div class="checkbox-item"><span class="checkbox"></span>Groove Line</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>T-bar</div>
+                            <div class="checkbox-item"><span class="checkbox">☐</span>Groove Line</div>
                         </div>
                     </td>
                     <td></td>
@@ -736,8 +737,13 @@ class SimpleWorkingTemplate:
             pdf_path = html_path.replace('.html', '.pdf')
             
             # wkhtmltopdf command with optimal settings for Job Orders
+            # Use full path on Windows if wkhtmltopdf is not in PATH
+            wkhtmltopdf_path = 'wkhtmltopdf'
+            if os.name == 'nt' and os.path.exists(r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'):
+                wkhtmltopdf_path = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+            
             cmd = [
-                'wkhtmltopdf',
+                wkhtmltopdf_path,
                 '--page-size', 'A4',
                 '--margin-top', '8mm',
                 '--margin-bottom', '8mm', 

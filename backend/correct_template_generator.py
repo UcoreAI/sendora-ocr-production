@@ -4,6 +4,7 @@ Based on the ACTUAL Sendora JO template structure
 """
 
 import os
+import subprocess
 from datetime import datetime
 from typing import Dict, Any
 
@@ -31,6 +32,12 @@ class CorrectTemplateGenerator:
             
             print(f"SUCCESS! Correct JO generated: {html_filename}")
             print("This matches your actual template structure!")
+            
+            # Generate PDF from HTML
+            pdf_path = self.generate_pdf_from_html(html_path)
+            if pdf_path:
+                print(f"SUCCESS! PDF generated: {os.path.basename(pdf_path)}")
+                return pdf_path
             
             return html_path
             
@@ -628,6 +635,42 @@ class CorrectTemplateGenerator:
         pattern = r'([0-9]+[A-Z]-[A-Z0-9]+)'
         match = re.search(pattern, description)
         return match.group(1) if match else ""
+
+    def generate_pdf_from_html(self, html_path: str) -> str:
+        """Convert HTML to PDF with proper alignment"""
+        try:
+            pdf_path = html_path.replace('.html', '.pdf')
+            
+            # Use full path on Windows if wkhtmltopdf is not in PATH
+            wkhtmltopdf_path = 'wkhtmltopdf'
+            if os.name == 'nt' and os.path.exists(r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'):
+                wkhtmltopdf_path = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+            
+            cmd = [
+                wkhtmltopdf_path,
+                '--page-size', 'A4',
+                '--margin-top', '10mm',
+                '--margin-bottom', '10mm',
+                '--margin-left', '10mm',
+                '--margin-right', '10mm',
+                '--encoding', 'UTF-8',
+                '--enable-local-file-access',
+                html_path,
+                pdf_path
+            ]
+            
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+            
+            if result.returncode == 0 and os.path.exists(pdf_path):
+                print(f"PDF conversion successful: {os.path.basename(pdf_path)}")
+                return pdf_path
+            else:
+                print(f"PDF conversion failed: {result.stderr}")
+                return None
+                
+        except Exception as e:
+            print(f"PDF conversion error: {e}")
+            return None
 
 
 # Test the correct generator

@@ -548,8 +548,13 @@ class FixedResponsiveTemplate:
             pdf_path = html_path.replace('.html', '.pdf')
             
             # Optimized wkhtmltopdf settings for responsive design
+            # Use full path on Windows if wkhtmltopdf is not in PATH
+            wkhtmltopdf_path = 'wkhtmltopdf'
+            if os.name == 'nt' and os.path.exists(r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'):
+                wkhtmltopdf_path = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+            
             cmd = [
-                'wkhtmltopdf',
+                wkhtmltopdf_path,
                 '--page-size', 'A4',
                 '--orientation', 'Portrait',
                 '--margin-top', '10mm',
